@@ -16,7 +16,7 @@ def run_ga4_report(property_id, credentials):
 
         # Define the report request
         request = RunReportRequest(
-            property=f"properties/429942025",  # GA4 Property ID
+            property= "properties/429942025",  # GA4 Property ID
             date_ranges=[DateRange(start_date="7daysAgo", end_date="today")],
             dimensions=[Dimension(name="pagePath")],
             metrics=[Metric(name="screenPageViews")]
