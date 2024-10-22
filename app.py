@@ -71,7 +71,7 @@ def main():
         if response:
             # Parse the response to extract the number of sessions
             sessions = response.rows[0].metric_values[0].value
-            st.success(f"Number of sessions from yesterday: {sessions}")
+            st.success(f"Number of sessions this month: {sessions}")
         else:
             st.error("No response received from GA4 API.")
             logging.error("No response received from GA4 API.")
