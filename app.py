@@ -22,12 +22,12 @@ def get_analytics_data(credentials):
 
     # Define the request body for the data you want to retrieve
     request_body = {
-        'reportRequests': [{
-            'viewId': 'YOUR_VIEW_ID',  # Replace with your Google Analytics view ID
-            'dateRanges': [{'startDate': '7daysAgo', 'endDate': 'today'}],
-            'metrics': [{'expression': 'ga:pageviews'}],
-            'dimensions': [{'name': 'ga:pagePath'}]
-        }]
+    'reportRequests': [{
+        'viewId': '12345678',  # Replace this with your actual View ID
+        'dateRanges': [{'startDate': '7daysAgo', 'endDate': 'today'}],
+        'metrics': [{'expression': 'ga:pageviews'}],
+        'dimensions': [{'name': 'ga:pagePath'}]
+    }]
     }
 
     # Execute the request
