@@ -17,7 +17,7 @@ def run_ga4_sessions_report(property_id, credentials):
         # Define the report request to get 'sessions' metric for 'yesterday'
         request = RunReportRequest(
             property=f"properties/{property_id}",
-            date_ranges=[DateRange(start_date="yesterday", end_date="yesterday")],
+            date_ranges=[DateRange(start_date="2024-10-01", end_date="yesterday")],
             metrics=[Metric(name="sessions")],  # Fetch 'sessions' metric
         )
 
