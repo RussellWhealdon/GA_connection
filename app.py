@@ -7,9 +7,12 @@ from googleapiclient.discovery import build
 
 # Set up credentials
 def load_credentials():
-    # Path to your downloaded service account key
-    credentials_path = 'path/to/your/credentials.json'  # Update this path
-    credentials = service_account.Credentials.from_service_account_file(credentials_path)
+    # Load the credentials from the Streamlit secrets
+    service_account_info = st.secrets["google_service_account"]
+    
+    # Create credentials from the service account info
+    credentials = service_account.Credentials.from_service_account_info(service_account_info)
+    
     return credentials
 
 # Function to connect to GA4 API and fetch data
