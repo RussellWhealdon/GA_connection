@@ -9,10 +9,10 @@ from google.analytics.data_v1beta.types import DateRange, Metric, Dimension, Run
 logging.basicConfig(level=logging.DEBUG)
 
 # Function to fetch GA4 data
-def run_ga4_report(property_id):
+def run_ga4_report(property_id, credentials):
     try:
-        # Initialize the client
-        client = BetaAnalyticsDataClient()
+        # Initialize the client with credentials
+        client = BetaAnalyticsDataClient(credentials=credentials)
 
         # Define the report request
         request = RunReportRequest(
@@ -47,37 +47,4 @@ def load_credentials():
 # Streamlit UI
 def main():
     st.title("Google Analytics Data App")
-    st.write("This app pulls data from your Google Analytics account.")
-
-    # Load credentials
-    try:
-        credentials = load_credentials()
-    except Exception as e:
-        return
-
-    # Get the GA4 Property ID from secrets
-    property_id = st.secrets["google_service_account"]["property_id"]
-
-    # Fetch data from Google Analytics (GA4)
-    try:
-        logging.info("Fetching GA4 report...")
-        response = run_ga4_report(property_id)
-
-        if response:
-            # Parse the response to extract useful information
-            response_data = {
-                "dimensions": [row.dimension_values for row in response.rows],
-                "metrics": [row.metric_values for row in response.rows]
-            }
-            st.success("Data fetched successfully!")
-            st.write("Response:", json.dumps(response_data, indent=2))
-        else:
-            st.error("No response received from GA4 API.")
-
-    except Exception as e:
-        logging.error(f"Failed to fetch data from Google Analytics: {str(e)}")
-        st.error(f"Failed to fetch data from Google Analytics: {str(e)}")
-
-# Run the Streamlit app
-if __name__ == "__main__":
-    main()
+    st.write("This app pulls d
