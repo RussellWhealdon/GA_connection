@@ -5,6 +5,30 @@ import google.auth
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
+from google.analytics.data_v1beta import BetaAnalyticsDataClient
+from google.analytics.data_v1beta.types import DateRange, Metric, Dimension, RunReportRequest
+
+def run_ga4_report():
+    # Initialize the client
+    client = BetaAnalyticsDataClient()
+
+    # Your GA4 property ID (replace with your property ID)
+    property_id = "YOUR_GA4_PROPERTY_ID"
+
+    # Define the report request
+    request = RunReportRequest(
+        property=f"properties/{property_id}",
+        date_ranges=[DateRange(start_date="7daysAgo", end_date="today")],
+        dimensions=[Dimension(name="pagePath")],
+        metrics=[Metric(name="screenPageViews")]
+    )
+
+    # Run the report
+    response = client.run_report(request=request)
+
+    return response
+
+
 # Set up credentials
 def load_credentials():
     # Load the credentials from the Streamlit secrets
@@ -42,13 +66,23 @@ def main():
     # Load credentials
     credentials = load_credentials()
 
-    # Fetch data from Google Analytics
+    # Fetch data from Google Analytics (GA4)
     with st.spinner("Fetching data..."):
-        data = get_analytics_data(credentials)
-        st.success("Data fetched successfully!")
+        # Call the GA4 report function to fetch data
+        response = run_ga4_report()
 
-    # Display raw data or processed info
-    st.write("Response:", json.dumps(data, indent=2))
+        # Parse the response to extract useful information
+        # Here, we format the response for better readability
+        if response:
+            # Convert the response to a dictionary format
+            response_data = {
+                "dimensions": [row.dimension_values for row in response.rows],
+                "metrics": [row.metric_values for row in response.rows]
+            }
+            st.success("Data fetched successfully!")
+            st.write("Response:", json.dumps(response_data, indent=2))
+        else:
+            st.error("Failed to fetch data from Google Analytics.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
