@@ -12,6 +12,20 @@ logging.basicConfig(level=logging.DEBUG)
 # Load the OpenAI API key from secrets
 openai.api_key = st.secrets["openai"]["api_key"]
 
+# Function to query GPT-4
+def query_gpt4(prompt):
+    try:
+        response = openai.Completion.create(
+            engine="gpt-4",  # Make sure the engine is GPT-4
+            prompt=prompt,
+            max_tokens=150
+        )
+        return response.choices[0].text.strip()
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+
+
+
 # Function to fetch GA4 data
 def run_ga4_sessions_report(property_id, credentials):
     try:
@@ -84,6 +98,19 @@ def main():
     except Exception as e:
         logging.error(f"Failed to fetch data from Google Analytics: {str(e)}")
         st.error(f"Failed to fetch data from Google Analytics: {str(e)}")
+
+    # Streamlit app UI
+    st.title("Simple GPT-4 Test")
+
+    # Input field for user query
+    user_input = st.text_input("Type something to ask GPT-4:")
+
+    if user_input:
+        st.write("GPT-4 is thinking...")
+        response = query_gpt4(user_input)
+        st.write(response)
+
+
 
 # Run the Streamlit app
 if __name__ == "__main__":
