@@ -16,7 +16,7 @@ def get_ga_summary_data():
     request = RunReportRequest(
         property=f"properties/{property_id}",
         date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-30")],  # Last 30 days
-        dimensions=[Dimension(name="date"), Dimension(name="channelGrouping")],  # Break down by date and channel
+        dimensions=[Dimension(name="date"), Dimension(name="source")],  # Break down by date and channel
         metrics=[Metric(name="sessions"), Metric(name="activeUsers"), Metric(name="bounceRate")],  # Traffic metrics
     )
     response = client.run_report(request)
