@@ -15,15 +15,14 @@ openai.api_key = st.secrets["openai"]["api_key"]
 # Function to send a query to GPT-4 using the chat model
 def query_gpt4(prompt):
     try:
-        response = openai.ChatCompletion.create(
+        completion = openai.ChatCompletion.create(
             model="gpt-4",  # Use the correct model for GPT-4
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
-            ],
-            max_tokens=150
+            ]
         )
-        return response['choices'][0]['message']['content'].strip()
+        return completion.choices[0].message['content']
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
