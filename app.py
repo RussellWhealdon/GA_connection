@@ -26,7 +26,7 @@ def get_ga_summary_data():
     for row in response.rows:
         rows.append({
             "date": row.dimension_values[0].value,
-            "channel": row.dimension_values[1].value,
+            "source": row.dimension_values[1].value,
             "sessions": row.metric_values[0].value,
             "activeUsers": row.metric_values[1].value,
             "bounceRate": row.metric_values[2].value
