@@ -34,12 +34,36 @@ def get_ga_summary_data():
     st.write(response.rows)
     return pd.DataFrame(rows)
 
+def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
+    """Runs a simple report on a Google Analytics 4 property."""
+
+    # Initialize the BetaAnalyticsDataClient
+    client = BetaAnalyticsDataClient()
+
+    # Create the report request
+    request = RunReportRequest(
+        property=f"properties/{property_id}",
+        dimensions=[Dimension(name="city")],
+        metrics=[Metric(name="activeUsers")],
+        date_ranges=[DateRange(start_date="2020-03-31", end_date="today")],
+    )
+
+    # Run the report
+    response = client.run_report(request)
+
+    # Print the results
+    print("Report result:")
+    for row in response.rows:
+        print(row.dimension_values[0].value, row.metric_values[0].value)
+
+sample_run_report(property_id)
+
 # Fetch and display Google Analytics data
-ga_data = get_ga_summary_data()
+#ga_data = get_ga_summary_data()
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
-st.dataframe(ga_data)
+#st.dataframe(ga_data)
 
 # Function to query GPT-4 with data context
 def query_gpt4(prompt, data):
