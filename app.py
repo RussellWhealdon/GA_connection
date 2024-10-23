@@ -6,7 +6,7 @@ from google.analytics.data_v1beta.types import RunReportRequest, DateRange, Dime
 
 # Load the secrets for the service account path and property ID
 service_account_info = st.secrets["service_account_info"]  # Load service account JSON from secrets
-property_id = st.secrets["ga_property_id"]  # GA4 property ID from secrets
+property_id = st.secrets["google_service_account"]["property_id"]
 
 # Initialize GA Client using the service account JSON
 client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
