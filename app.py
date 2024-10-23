@@ -17,18 +17,27 @@ client = OpenAI()
 # Function to send a query to GPT-4 using the chat model
 def query_gpt4(prompt):
     try:
-        completion = openai.chat.completions.create(
-            model="gpt-4o",  # Use the correct model for GPT-4
+        completion = client.chat.completions.create(
+            model="gpt-4o",  # Use the appropriate model (gpt-4o or gpt-4o-mini)
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
             ]
         )
-        return completion.choices[0].message
+        return completion.choices[0].message['content']
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
+# Streamlit app UI
+st.title("Simple GPT-4 Test")
 
+# Input field for user query
+user_input = st.text_input("Type something to ask GPT-4:")
+
+if user_input:
+    st.write("GPT-4 is thinking...")
+    response = query_gpt4(user_input)
+    st.write(response)
 
 # Function to fetch GA4 data
 def run_ga4_sessions_report(property_id, credentials):
@@ -117,5 +126,5 @@ def main():
 
 
 # Run the Streamlit app
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+ #   main()
