@@ -44,25 +44,32 @@ def load_credentials():
         st.error(f"Error loading credentials: {str(e)}")
         raise e
 
+def query_gpt4(prompt):
+    response = openai.Completion.create(
+        engine="gpt-4",
+        prompt=prompt,
+        max_tokens=150  # You can adjust the number of tokens
+    )
+    return response.choices[0].text.strip()
+
+st.title("GA Data Insights")
+user_input = st.text_input("Ask a question about your GA data")
+
+if user_input:
+    response = query_gpt4(user_input)
+    st.write(response)
+
 # Streamlit UI
 def main():
     st.title("Google Analytics Sessions Data App")
     st.write("This app pulls the number of sessions from yesterday.")
 
     # Load credentials
-    try:
-        credentials = load_credentials()
-    except Exception as e:
-        return
-
+    credentials = load_credentials()
+    
     # Get the GA4 Property ID from secrets
-    try:
-        property_id = st.secrets["google_service_account"]["property_id"]
-        logging.info(f"Using property ID: {property_id}")
-    except KeyError:
-        st.error("Property ID not found in secrets.")
-        logging.error("Property ID not found in secrets.")
-        return
+    property_id = st.secrets["google_service_account"]["property_id"]
+    logging.info(f"Using property ID: {property_id}")
 
     # Fetch data from Google Analytics (GA4)
     try:
