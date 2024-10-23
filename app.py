@@ -37,7 +37,7 @@ def get_ga_summary_data():
     st.write(response.rows)
     return pd.DataFrame(rows)
 
-def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
+def sample_run_report(property_id):
     """Runs a simple report on a Google Analytics 4 property."""
 
     # Initialize the BetaAnalyticsDataClient
@@ -62,6 +62,7 @@ def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
+
 sample_run_report(property_id)
 
 # Fetch and display Google Analytics data
