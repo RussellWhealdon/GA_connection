@@ -1,106 +1,62 @@
 import openai
 import streamlit as st
-import json
-import logging
-from google.oauth2 import service_account
+import pandas as pd
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
-from google.analytics.data_v1beta.types import DateRange, Metric, RunReportRequest
+from google.analytics.data_v1beta.types import RunReportRequest, DateRange, Dimension, Metric
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
+# Load the secrets for the service account path and property ID
+service_account_info = st.secrets["service_account_info"]  # Load service account JSON from secrets
+property_id = st.secrets["ga_property_id"]  # GA4 property ID from secrets
 
-# Load the OpenAI API key from secrets
-openai.api_key = st.secrets["openai"]["api_key"]
+# Initialize GA Client using the service account JSON
+client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
 
-# Function to send a query to GPT-4 using the new API
-def query_gpt4(prompt):
+# Function to fetch Google Analytics data
+def get_ga_data():
+    request = RunReportRequest(
+        property=f"properties/{property_id}",
+        date_ranges=[DateRange(start_date="2023-01-01", end_date="2023-12-31")],
+        dimensions=[Dimension(name="pageTitle")],
+        metrics=[Metric(name="activeUsers")],
+    )
+    response = client.run_report(request)
+    
+    # Process response to a DataFrame
+    rows = []
+    for row in response.rows:
+        rows.append({
+            "pageTitle": row.dimension_values[0].value,
+            "activeUsers": row.metric_values[0].value
+        })
+    return pd.DataFrame(rows)
+
+# Fetch and display Google Analytics data
+ga_data = get_ga_data()
+
+st.title("Google Analytics Data Analysis with GPT-4")
+st.write("Google Analytics Data:")
+st.dataframe(ga_data)
+
+# Function to query GPT-4 with data context
+def query_gpt4(prompt, data):
     try:
-        response = openai.chat.completions.create(  # Updated method call
-            model="gpt-4",  # Or "gpt-3.5-turbo" depending on what you need
+        response = openai.chat.completions.create(
+            model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
+                {"role": "system", "content": "You are a data analyst."},
+                {"role": "user", "content": f"Here is some Google Analytics data:\n\n{data}\n\n{prompt}"}
             ]
         )
-        return response.choices[0].message.content  # Updated to work with the new API
+        return response.choices[0].message.content
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-# Streamlit app UI
-st.title("Simple GPT-4 Test")
+# Let the user ask GPT-4 a question
+user_prompt = st.text_input("Ask GPT-4 something about this data:")
 
-# Input field for user query
-user_input = st.text_input("Type something to ask GPT-4:")
-
-if user_input:
-    st.write("GPT-4 is thinking...")
-    response = query_gpt4(user_input)
+# If the user provides a prompt, analyze it
+if user_prompt:
+    data_summary = ga_data.head().to_csv(index=False)  # Summarize the data for GPT-4
+    st.write("GPT-4 is analyzing the data...")
+    response = query_gpt4(user_prompt, data_summary)
     st.write(response)
-
-# Function to fetch GA4 data
-def run_ga4_sessions_report(property_id, credentials):
-    try:
-        # Initialize the client with the explicit credentials
-        client = BetaAnalyticsDataClient(credentials=credentials)
-
-        # Define the report request to get 'sessions' metric for 'yesterday'
-        request = RunReportRequest(
-            property=f"properties/{property_id}",
-            date_ranges=[DateRange(start_date="2024-10-01", end_date="yesterday")],
-            metrics=[Metric(name="sessions")],  # Fetch 'sessions' metric
-        )
-
-        # Run the report
-        response = client.run_report(request=request)
-        return response
-    except Exception as e:
-        logging.error(f"Error in run_ga4_sessions_report: {str(e)}")
-        raise e
-
-# Set up credentials
-def load_credentials():
-    try:
-        # Load the credentials from the Streamlit secrets
-        service_account_info = st.secrets["google_service_account"]
-        
-        # Create credentials from the service account info
-        credentials = service_account.Credentials.from_service_account_info(service_account_info)
-        logging.info("Successfully loaded credentials.")
-        return credentials
-    except Exception as e:
-        logging.error(f"Error loading credentials: {str(e)}")
-        st.error(f"Error loading credentials: {str(e)}")
-        raise e
-
-# Streamlit UI for Google Analytics Sessions Data
-def main():
-    st.title("Google Analytics Sessions Data App")
-    st.write("This app pulls the number of sessions from Google Analytics.")
-
-    # Load credentials
-    credentials = load_credentials()
-    
-    # Get the GA4 Property ID from secrets
-    property_id = st.secrets["google_service_account"]["property_id"]
-    logging.info(f"Using property ID: {property_id}")
-
-    # Fetch data from Google Analytics (GA4)
-    try:
-        logging.info("Fetching GA4 sessions report...")
-        response = run_ga4_sessions_report(property_id, credentials)
-
-        if response:
-            # Parse the response to extract the number of sessions
-            sessions = response.rows[0].metric_values[0].value
-            st.success(f"Number of sessions this month: {sessions}")
-        else:
-            st.error("No response received from GA4 API.")
-            logging.error("No response received from GA4 API.")
-
-    except Exception as e:
-        logging.error(f"Failed to fetch data from Google Analytics: {str(e)}")
-        st.error(f"Failed to fetch data from Google Analytics: {str(e)}")
-
-# Run the Streamlit app
-if __name__ == "__main__":
-    main()
