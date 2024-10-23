@@ -9,6 +9,9 @@ from google.analytics.data_v1beta.types import DateRange, Metric, RunReportReque
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
+# Load the OpenAI API key from secrets
+openai.api_key = st.secrets["openai"]["api_key"]
+
 # Function to fetch GA4 data
 def run_ga4_sessions_report(property_id, credentials):
     try:
