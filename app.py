@@ -12,6 +12,8 @@ logging.basicConfig(level=logging.DEBUG)
 # Load the OpenAI API key from secrets
 openai.api_key = st.secrets["openai"]["api_key"]
 
+client = OpenAI()
+
 # Function to send a query to GPT-4 using the chat model
 def query_gpt4(prompt):
     try:
