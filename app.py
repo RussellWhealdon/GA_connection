@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai
 import streamlit as st
 import json
 import logging
