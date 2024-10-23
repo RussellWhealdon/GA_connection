@@ -22,7 +22,7 @@ def query_gpt4(prompt):
                 {"role": "user", "content": prompt}
             ]
         )
-        return response.choices[0].message['content']  # Updated to work with the new API
+        return response.choices[0].message.content  # Updated to work with the new API
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
