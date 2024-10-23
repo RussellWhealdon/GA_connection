@@ -12,15 +12,17 @@ logging.basicConfig(level=logging.DEBUG)
 # Load the OpenAI API key from secrets
 openai.api_key = st.secrets["openai"]["api_key"]
 
-# Function to send a query to GPT-4 using the chat model
+# Function to send a query to GPT-4 or GPT-3.5 using the chat model
 def query_gpt4(prompt):
     try:
-        completion = openai.Completion.create(
-            engine="gpt-3.5-turbo",  # Fallback model if ChatCompletion doesn't exist
-            prompt=prompt,
-            max_tokens=150
+        completion = openai.ChatCompletion.create(
+            model="gpt-4",  # Or use "gpt-3.5-turbo" depending on availability
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ]
         )
-        return completion.choices[0].text.strip()
+        return completion.choices[0].message['content']
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
