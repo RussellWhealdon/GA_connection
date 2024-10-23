@@ -49,11 +49,12 @@ def sample_run_report(property_id):
         metrics=[Metric(name="activeUsers")],
         date_ranges=[DateRange(start_date="2023-01-01", end_date="2023-01-31")],
     )
+    st.write("Am I getting here??")
     try:
         response = client.run_report(request)
-        print(response)
+        st.write(response)
     except Exception as e:
-        print(f"Error: {e}")
+        st.write(f"Error: {e}")
 
     # Print the results
     print("Report result:")
