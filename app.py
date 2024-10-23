@@ -63,6 +63,8 @@ def sample_run_report(property_id):
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
 
+st.write(property_id)
+
 sample_run_report(property_id)
 
 # Fetch and display Google Analytics data
