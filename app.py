@@ -16,7 +16,7 @@ openai.api_key = st.secrets["openai"]["api_key"]
 def query_gpt4(prompt):
     try:
         completion = openai.Completion.create(
-            engine="gpt-4o-mini",  # Fallback model if ChatCompletion doesn't exist
+            engine="gpt-3.5-turbo",  # Fallback model if ChatCompletion doesn't exist
             prompt=prompt,
             max_tokens=150
         )
