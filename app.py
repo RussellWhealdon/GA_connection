@@ -12,13 +12,11 @@ logging.basicConfig(level=logging.DEBUG)
 # Load the OpenAI API key from secrets
 openai.api_key = st.secrets["openai"]["api_key"]
 
-client = OpenAI()
-
 # Function to send a query to GPT-4 using the chat model
 def query_gpt4(prompt):
     try:
-        completion = client.chat.completions.create(
-            model="gpt-4o",  # Use the appropriate model (gpt-4o or gpt-4o-mini)
+        completion = openai.ChatCompletion.create(
+            model="gpt-4",  # Use the appropriate model name
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
