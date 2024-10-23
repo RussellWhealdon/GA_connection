@@ -19,7 +19,11 @@ def get_ga_summary_data():
         dimensions=[Dimension(name="date"), Dimension(name="source")],  # Break down by date and channel
         metrics=[Metric(name="sessions"), Metric(name="activeUsers"), Metric(name="bounceRate")],  # Traffic metrics
     )
-    response = client.run_report(request)
+    try:
+        response = client.run_report(request)
+        print(response)
+    except Exception as e:
+        print(f"Error: {e}")
     
     # Process response to a DataFrame
     rows = []
