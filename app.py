@@ -72,32 +72,32 @@ def query_gpt4(prompt):
 
 # Streamlit UI
 def main():
-    st.title("Google Analytics Sessions Data App")
-    st.write("This app pulls the number of sessions from yesterday.")
+    #st.title("Google Analytics Sessions Data App")
+    #st.write("This app pulls the number of sessions from yesterday.")
 
     # Load credentials
-    credentials = load_credentials()
+    #credentials = load_credentials()
     
     # Get the GA4 Property ID from secrets
-    property_id = st.secrets["google_service_account"]["property_id"]
-    logging.info(f"Using property ID: {property_id}")
+    #property_id = st.secrets["google_service_account"]["property_id"]
+    #logging.info(f"Using property ID: {property_id}")
 
     # Fetch data from Google Analytics (GA4)
-    try:
-        logging.info("Fetching GA4 sessions report...")
-        response = run_ga4_sessions_report(property_id, credentials)
+    #try:
+    #    logging.info("Fetching GA4 sessions report...")
+    #    response = run_ga4_sessions_report(property_id, credentials)
 
-        if response:
-            # Parse the response to extract the number of sessions
-            sessions = response.rows[0].metric_values[0].value
-            st.success(f"Number of sessions this month: {sessions}")
-        else:
-            st.error("No response received from GA4 API.")
-            logging.error("No response received from GA4 API.")
+    #    if response:
+    #        # Parse the response to extract the number of sessions
+    #        sessions = response.rows[0].metric_values[0].value
+    #        st.success(f"Number of sessions this month: {sessions}")
+    #    else:
+    #        st.error("No response received from GA4 API.")
+    #        logging.error("No response received from GA4 API.")
 
-    except Exception as e:
-        logging.error(f"Failed to fetch data from Google Analytics: {str(e)}")
-        st.error(f"Failed to fetch data from Google Analytics: {str(e)}")
+    #except Exception as e:
+    #    logging.error(f"Failed to fetch data from Google Analytics: {str(e)}")
+    #    st.error(f"Failed to fetch data from Google Analytics: {str(e)}")
 
     # Streamlit app UI
     st.title("Simple GPT-4 Test")
