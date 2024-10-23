@@ -16,13 +16,11 @@ openai.api_key = st.secrets["openai"]["api_key"]
 def query_gpt4(prompt):
     try:
         completion = openai.Completion.create(
-            model="gpt-4",  # Use the appropriate model name
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
+            engine="text-davinci-003",  # Fallback model if ChatCompletion doesn't exist
+            prompt=prompt,
+            max_tokens=150
         )
-        return completion.choices[0].message['content']
+        return completion.choices[0].text.strip()
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
