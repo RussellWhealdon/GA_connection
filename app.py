@@ -11,13 +11,13 @@ property_id = st.secrets["google_service_account"]["property_id"]
 # Initialize GA Client using the service account JSON
 client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
 
-# Function to fetch Google Analytics data
-def get_ga_data():
+# Function to fetch Google Analytics data with channel breakdowns
+def get_ga_summary_data():
     request = RunReportRequest(
         property=f"properties/{property_id}",
-        date_ranges=[DateRange(start_date="2023-01-01", end_date="2023-12-31")],
-        dimensions=[Dimension(name="pageTitle")],
-        metrics=[Metric(name="activeUsers")],
+        date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-30")],  # Last 30 days
+        dimensions=[Dimension(name="date"), Dimension(name="channelGrouping")],  # Break down by date and channel
+        metrics=[Metric(name="sessions"), Metric(name="activeUsers"), Metric(name="bounceRate")],  # Traffic metrics
     )
     response = client.run_report(request)
     
@@ -25,8 +25,11 @@ def get_ga_data():
     rows = []
     for row in response.rows:
         rows.append({
-            "pageTitle": row.dimension_values[0].value,
-            "activeUsers": row.metric_values[0].value
+            "date": row.dimension_values[0].value,
+            "channel": row.dimension_values[1].value,
+            "sessions": row.metric_values[0].value,
+            "activeUsers": row.metric_values[1].value,
+            "bounceRate": row.metric_values[2].value
         })
     return pd.DataFrame(rows)
 
