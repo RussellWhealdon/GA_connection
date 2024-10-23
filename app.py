@@ -50,6 +50,7 @@ def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
 
     # Run the report
     response = client.run_report(request)
+    print(response)
 
     # Print the results
     print("Report result:")
