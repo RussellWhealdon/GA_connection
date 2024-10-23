@@ -15,7 +15,7 @@ openai.api_key = st.secrets["openai"]["api_key"]
 # Function to send a query to GPT-4 using the chat model
 def query_gpt4(prompt):
     try:
-        completion = openai.ChatCompletion.create(
+        completion = openai.Completion.create(
             model="gpt-4",  # Use the appropriate model name
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
