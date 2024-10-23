@@ -31,7 +31,7 @@ def get_ga_summary_data():
             "activeUsers": row.metric_values[1].value,
             "bounceRate": row.metric_values[2].value
         })
-    st.write(response)
+    st.write(response.rows)
     return pd.DataFrame(rows)
 
 # Fetch and display Google Analytics data
