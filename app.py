@@ -46,14 +46,14 @@ def sample_run_report(property_id):
     # Create the report request
     request = RunReportRequest(
         property=f"properties/{property_id}",
-        dimensions=[Dimension(name="city")],
         metrics=[Metric(name="activeUsers")],
-        date_ranges=[DateRange(start_date="2020-03-31", end_date="today")],
+        date_ranges=[DateRange(start_date="2023-01-01", end_date="2023-01-31")],
     )
-
-    # Run the report
-    response = client.run_report(request)
-    print(response)
+    try:
+        response = client.run_report(request)
+        print(response)
+    except Exception as e:
+        print(f"Error: {e}")
 
     # Print the results
     print("Report result:")
