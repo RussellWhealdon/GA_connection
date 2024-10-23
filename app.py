@@ -52,12 +52,6 @@ def query_gpt4(prompt):
     )
     return response.choices[0].text.strip()
 
-st.title("GA Data Insights")
-user_input = st.text_input("Ask a question about your GA data")
-
-if user_input:
-    response = query_gpt4(user_input)
-    st.write(response)
 
 # Streamlit UI
 def main():
