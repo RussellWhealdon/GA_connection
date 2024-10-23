@@ -57,13 +57,13 @@ def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
     for row in response.rows:
         print(row.dimension_values[0].value, row.metric_values[0].value)
 
+st.title("Google Analytics Data Analysis with GPT-4")
+st.write("Google Analytics Data:")
 sample_run_report(property_id)
 
 # Fetch and display Google Analytics data
 #ga_data = get_ga_summary_data()
 
-st.title("Google Analytics Data Analysis with GPT-4")
-st.write("Google Analytics Data:")
 #st.dataframe(ga_data)
 
 # Function to query GPT-4 with data context
