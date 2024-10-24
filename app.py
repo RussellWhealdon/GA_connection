@@ -72,6 +72,8 @@ def get_ga_summary_data():
     df['Date'] = pd.to_datetime(df['Date'])
     df['Date'] = df['Date'].dt.date
 
+    df.sort_values(by = ['Date'], inplace =True)
+
     return df
 
 
