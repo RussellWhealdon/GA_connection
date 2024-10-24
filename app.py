@@ -160,7 +160,12 @@ ga_data = get_ga_summary_data()
 
 st.dataframe(ga_data)
 
-st.write(create_ga_summary(ga_data))
+# Generate the performance summary
+ga_summary = create_ga_summary(ga_data)
+
+# Show the generated summary
+st.write("Generated Performance Summary:")
+st.write(ga_summary)
 
 # Let the user ask GPT-4 a question about the data
 user_prompt = st.text_input("Ask GPT-4 something about this data:")
