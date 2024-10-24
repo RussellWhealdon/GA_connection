@@ -40,7 +40,7 @@ def get_ga_summary_data():
             rows.append([date, active_users, sessions, bounce_rate])
     
     # Create a DataFrame with appropriate column names
-    df = pd.DataFrame(data, columns=['Date', 'Active Users', 'Sessions', 'Bounce Rate'])
+    df = pd.DataFrame(rows, columns=['Date', 'Active Users', 'Sessions', 'Bounce Rate'])
 
 
 st.title("Google Analytics Data Analysis with GPT-4")
