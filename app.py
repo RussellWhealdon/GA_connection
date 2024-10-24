@@ -30,7 +30,7 @@ def get_ga_summary_data():
 
     # Loop through the rows and extract date, activeUsers, sessions, and bounceRate
     for row in response.rows:
-        date = row['dimension_values'][0]['value']  # Extract the date
+        date = row.dimension_values[0]['value']  # Extract the date
         active_users = row['metric_values'][0]['value']  # Extract activeUsers
         sessions = row['metric_values'][1]['value']  # Extract sessions
         bounce_rate = row['metric_values'][2]['value']  # Extract bounceRate
