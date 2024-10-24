@@ -30,11 +30,14 @@ def get_ga_summary_data():
 
     # Loop through the rows and extract date, activeUsers, sessions, and bounceRate
     for row in response.rows:
-        date = row.dimension_values[0]['value']  # Extract the date
-        active_users = row['metric_values'][0]['value']  # Extract activeUsers
-        sessions = row['metric_values'][1]['value']  # Extract sessions
-        bounce_rate = row['metric_values'][2]['value']  # Extract bounceRate
-        data.append([date, active_users, sessions, bounce_rate])
+        # Extract values using dot notation
+            date = row.dimension_values[0].value  # Extract the date
+            active_users = row.metric_values[0].value  # Extract activeUsers
+            sessions = row.metric_values[1].value  # Extract sessions
+            bounce_rate = row.metric_values[2].value  # Extract bounceRate
+
+            # Append row data to the list
+            rows.append([date, active_users, sessions, bounce_rate])
     
     # Create a DataFrame with appropriate column names
     df = pd.DataFrame(data, columns=['Date', 'Active Users', 'Sessions', 'Bounce Rate'])
