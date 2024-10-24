@@ -43,7 +43,7 @@ def get_ga_summary_data():
         bounce_rate = row.metric_values[2].value  # Extract bounceRate
 
         # Append row data to the list
-        rows.append([date, city, source, active_users, sessions, bounce_rate])
+        rows.append([date, active_users, sessions, bounce_rate])
     
     # Create a DataFrame with appropriate column names
     df = pd.DataFrame(rows, columns=['Date', 'Active Users', 'Sessions', 'Bounce Rate'])
