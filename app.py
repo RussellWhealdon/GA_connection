@@ -95,6 +95,12 @@ def convert_rate_to_float(rate):
         return None  # Return None for invalid data
 
 def create_ga_summary(df):
+    # Ensure that numeric columns are truly numeric
+    numeric_columns = ['Sessions', 'Active Users', 'New Users', 'Avg. Session Duration']
+    for col in numeric_columns:
+        df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
+
+    
     # Convert 'Avg. Session Duration' from time format to seconds
     df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_duration_to_seconds)
 
