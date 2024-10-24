@@ -16,7 +16,7 @@ def get_ga_summary_data():
     request = RunReportRequest(
         property=f"properties/{property_id}",
         metrics=[Metric(name="activeUsers")],
-        date_ranges=[DateRange(start_date="2023-01-01", end_date="2023-01-31")],
+        date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-31")],
     )
     try:
         response = client.run_report(request)
