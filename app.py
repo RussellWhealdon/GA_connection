@@ -16,7 +16,12 @@ def get_ga_summary_data():
 # Create a request with multiple metrics and 'date' as a dimension
     request = RunReportRequest(
         property=f"properties/{property_id}",
-        dimensions=[Dimension(name="date")],  # Add 'date' as a dimension
+        dimensions=[
+            Dimension(name="date"),
+            Dimension(name="city"),
+            Dimension(name="pageTitle"),
+            Dimension(name="source")
+        ],  # Add 'date' as a dimension
         metrics=[
             Metric(name="activeUsers"),
             Metric(name="sessions"),         # Add more metrics as needed
