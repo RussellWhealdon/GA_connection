@@ -26,7 +26,6 @@ def get_ga_summary_data():
     )
     
     response = client.run_report(request)
-    st.write(response)
     rows = []
     # Loop through the rows and extract date, activeUsers, sessions, and bounceRate
     for row in response.rows:
