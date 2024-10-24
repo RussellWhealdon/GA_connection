@@ -40,8 +40,6 @@ def get_ga_summary_data():
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
 
-
-
 # Fetch and display Google Analytics data
 ga_data = get_ga_summary_data()
 
