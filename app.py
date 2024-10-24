@@ -19,7 +19,7 @@ def get_ga_summary_data():
         dimensions=[
             Dimension(name="date"),
             Dimension(name="city"),
-            Dimension(name="pageTitle"),
+            #Dimension(name="pageTitle"),
             Dimension(name="source")
         ],  # Add 'date' as a dimension
         metrics=[
@@ -37,8 +37,8 @@ def get_ga_summary_data():
         # Extract values using dot notation
             date = row.dimension_values[0].value  # Extract the date
             city = row.dimension_values[1].value  # Extract the city
-            page = row.dimension_values[2].value  # Extract the page
-            source = row.dimension_values[3].value  # Extract the date
+            #page = row.dimension_values[2].value  # Extract the page
+            source = row.dimension_values[2].value  # Extract the date
             active_users = row.metric_values[0].value  # Extract activeUsers
             sessions = row.metric_values[1].value  # Extract sessions
             bounce_rate = row.metric_values[2].value  # Extract bounceRate
@@ -47,7 +47,7 @@ def get_ga_summary_data():
             rows.append([date, city, page, source, active_users, sessions, bounce_rate])
     
     # Create a DataFrame with appropriate column names
-    df = pd.DataFrame(rows, columns=['Date', 'City', 'Page', 'Source', 'Active Users', 'Sessions', 'Bounce Rate'])
+    df = pd.DataFrame(rows, columns=['Date', 'City', 'Source', 'Active Users', 'Sessions', 'Bounce Rate'])
 
     return df
 
