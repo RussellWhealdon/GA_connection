@@ -138,7 +138,7 @@ def query_gpt4(prompt, data_summary):
         full_prompt = f"Here is the website performance summary:\n\n{data_summary}\n\n{prompt}"
 
         # Send the combined prompt to GPT-4
-        response = openai.ChatCompletion.create(
+        response = openai.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a data analyst."},
@@ -147,7 +147,7 @@ def query_gpt4(prompt, data_summary):
         )
 
         # Return the response from GPT-4
-        return response.choices[0].message.content
+        return response.choices[0].message["content"]
 
     except Exception as e:
         return f"An error occurred: {str(e)}"
