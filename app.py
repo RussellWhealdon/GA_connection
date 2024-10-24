@@ -74,6 +74,8 @@ def get_ga_summary_data():
 
     df.sort_values(by = ['Date'], inplace =True)
 
+    st.write(avg_session_duration)
+
     return df
 
 def convert_duration_to_seconds(duration):
