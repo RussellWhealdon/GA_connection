@@ -106,12 +106,10 @@ def create_ga_summary(df):
     # Convert 'Bounce Rate' and other rate-based metrics to floats
     #df['Bounce Rate'] = df['Bounce Rate'].apply(convert_rate_to_float)
     
-    # Force conversion to numeric, coerce errors to NaN
-    df['Bounce Rate'] = pd.to_numeric(df['Bounce Rate'], errors='coerce')
-    
     # Extract necessary insights from the DataFrame
     total_sessions = df['Sessions'].sum()
-    avg_session_duration = df['Avg. Session Duration'].mean()
+    total_duration = df['Avg. Session Duration'].sum()
+    avg_session_duration = (total_duration / total_sessions) / 60  # Convert from seconds to minutes
     bounce_rate = df['Bounce Rate'].mean()
     total_active_users = df['Active Users'].sum()
     new_users = df['New Users'].sum()
