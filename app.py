@@ -36,7 +36,7 @@ def get_ga_summary_data():
         # Extract values using dot notation
         date = row.dimension_values[0].value  # Extract the date
         city = row.dimension_values[1].value  # Extract the city
-        channel = row.dimension_values[1].value  # Extract the source
+        channel = row.dimension_values[2].value  # Extract the source
         
         active_users = row.metric_values[0].value  # Extract activeUsers
         sessions = row.metric_values[1].value  # Extract sessions
