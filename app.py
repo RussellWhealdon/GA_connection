@@ -13,13 +13,12 @@ client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
 
 # Function to fetch Google Analytics data with channel breakdowns
 def get_ga_summary_data():
-# Create a request with multiple metrics and 'date' as a dimension
+    # Create a request with multiple metrics and 'date' as a dimension
     request = RunReportRequest(
         property=f"properties/{property_id}",
         dimensions=[
             Dimension(name="date"),
             Dimension(name="city"),
-            #Dimension(name="pageTitle"),
             Dimension(name="source")
         ],  # Add 'date' as a dimension
         metrics=[
@@ -35,21 +34,22 @@ def get_ga_summary_data():
     # Loop through the rows and extract date, activeUsers, sessions, and bounceRate
     for row in response.rows:
         # Extract values using dot notation
-            date = row.dimension_values[0].value  # Extract the date
-            city = row.dimension_values[1].value  # Extract the city
-            #page = row.dimension_values[2].value  # Extract the page
-            source = row.dimension_values[2].value  # Extract the date
-            active_users = row.metric_values[0].value  # Extract activeUsers
-            sessions = row.metric_values[1].value  # Extract sessions
-            bounce_rate = row.metric_values[2].value  # Extract bounceRate
+        date = row.dimension_values[0].value  # Extract the date
+        city = row.dimension_values[1].value  # Extract the city
+        source = row.dimension_values[2].value  # Extract the source
+        
+        active_users = row.metric_values[0].value  # Extract activeUsers
+        sessions = row.metric_values[1].value  # Extract sessions
+        bounce_rate = row.metric_values[2].value  # Extract bounceRate
 
-            # Append row data to the list
-            rows.append([date, city, page, source, active_users, sessions, bounce_rate])
+        # Append row data to the list
+        rows.append([date, city, source, active_users, sessions, bounce_rate])
     
     # Create a DataFrame with appropriate column names
     df = pd.DataFrame(rows, columns=['Date', 'City', 'Source', 'Active Users', 'Sessions', 'Bounce Rate'])
 
     return df
+
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
