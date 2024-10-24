@@ -18,8 +18,8 @@ def get_ga_summary_data():
         property=f"properties/{property_id}",
         dimensions=[
             Dimension(name="date"),
-            #Dimension(name="city"),
-            Dimension(name="source")
+            Dimension(name="city"),
+            #Dimension(name="source")
         ],  # Add 'date' as a dimension
         metrics=[
             Metric(name="activeUsers"),
@@ -35,18 +35,18 @@ def get_ga_summary_data():
     for row in response.rows:
         # Extract values using dot notation
         date = row.dimension_values[0].value  # Extract the date
-        #city = row.dimension_values[1].value  # Extract the city
-        source = row.dimension_values[1].value  # Extract the source
+        city = row.dimension_values[1].value  # Extract the city
+        #source = row.dimension_values[1].value  # Extract the source
         
         active_users = row.metric_values[0].value  # Extract activeUsers
         sessions = row.metric_values[1].value  # Extract sessions
         bounce_rate = row.metric_values[2].value  # Extract bounceRate
 
         # Append row data to the list
-        rows.append([date, source, active_users, sessions, bounce_rate])
+        rows.append([date, city, active_users, sessions, bounce_rate])
     
     # Create a DataFrame with appropriate column names
-    df = pd.DataFrame(rows, columns=['Date', 'Source', 'Active Users', 'Sessions', 'Bounce Rate'])
+    df = pd.DataFrame(rows, columns=['Date', 'City', 'Active Users', 'Sessions', 'Bounce Rate'])
 
     return df
 
