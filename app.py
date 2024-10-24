@@ -76,6 +76,32 @@ def get_ga_summary_data():
 
     return df
 
+def create_ga_summary(df):
+    # Extract necessary insights from the DataFrame
+    total_sessions = df['Sessions'].sum()
+    avg_session_duration = df['Avg. Session Duration'].mean()
+    bounce_rate = df['Bounce Rate'].mean()
+    total_active_users = df['Active Users'].sum()
+    new_users = df['New Users'].sum()
+    top_channel = df.groupby('Channel')['Sessions'].sum().idxmax()  # Get the channel with most sessions
+    top_city = df.groupby('City')['Sessions'].sum().idxmax()  # Get the city with most sessions
+    top_device = df.groupby('Device')['Sessions'].sum().idxmax()  # Get the device with most sessions
+
+    # Construct summary string
+    summary = (
+        f"Website Performance Overview:\n\n"
+        f"1. Total Sessions: {total_sessions}\n"
+        f"2. Active Users: {total_active_users}\n"
+        f"3. New Users: {new_users}\n"
+        f"4. Average Session Duration: {avg_session_duration:.2f} minutes\n"
+        f"5. Bounce Rate: {bounce_rate:.2f}%\n"
+        f"6. Top Traffic Channel: {top_channel}\n"
+        f"7. Top City: {top_city}\n"
+        f"8. Top Device: {top_device}\n"
+    )
+
+    return summary
+
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
@@ -84,6 +110,8 @@ st.write("Google Analytics Data:")
 ga_data = get_ga_summary_data()
 
 st.dataframe(ga_data)
+
+st.write(create_ga_summary(ga_data))
 
 # Function to query GPT-4 with data context
 def query_gpt4(prompt, data):
