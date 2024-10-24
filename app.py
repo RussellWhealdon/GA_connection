@@ -27,8 +27,7 @@ def get_ga_summary_data():
         metrics=[
             Metric(name="sessions"),                    # Total sessions
             Metric(name="activeUsers"),                 # Total active users
-            Metric(name="screenPageViews"),             # Total pageviews
-            Metric(name="uniquePageviews"),             # Unique pageviews
+            Metric(name="screenPageViews"),             # Total pageviews     
             Metric(name="bounceRate"),                  # Bounce rate
             Metric(name="averageSessionDuration"),      # Average session duration
             Metric(name="newUsers"),                    # New users
@@ -54,7 +53,6 @@ def get_ga_summary_data():
         sessions = row.metric_values[0].value  # Extract sessions
         active_users = row.metric_values[1].value  # Extract active users
         pageviews = row.metric_values[2].value  # Extract pageviews
-        unique_pageviews = row.metric_values[3].value  # Extract unique pageviews
         bounce_rate = row.metric_values[4].value  # Extract bounce rate
         avg_session_duration = row.metric_values[5].value  # Extract average session duration
         new_users = row.metric_values[6].value  # Extract new users
@@ -64,14 +62,14 @@ def get_ga_summary_data():
         # Append all the extracted data to the list
         rows.append([
             date, city, channel, device, country, landing_page, sessions,
-            active_users, pageviews, unique_pageviews, bounce_rate,
+            active_users, pageviews, bounce_rate,
             avg_session_duration, new_users, transactions, revenue
         ])
     
     # Create a DataFrame with the appropriate column names
     df = pd.DataFrame(rows, columns=[
         'Date', 'City', 'Channel', 'Device', 'Country', 'Landing Page', 
-        'Sessions', 'Active Users', 'Pageviews', 'Unique Pageviews', 
+        'Sessions', 'Active Users', 'Pageviews', 
         'Bounce Rate', 'Avg. Session Duration', 'New Users', 
         'Transactions', 'Revenue'
     ])
