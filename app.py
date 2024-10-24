@@ -73,9 +73,6 @@ def get_ga_summary_data():
     df['Date'] = df['Date'].dt.date
 
     df.sort_values(by = ['Date'], inplace =True)
-
-    st.write(avg_session_duration)
-
     return df
 
 def convert_duration_to_seconds(duration):
@@ -147,6 +144,8 @@ ga_data = get_ga_summary_data()
 st.dataframe(ga_data)
 
 st.write(create_ga_summary(ga_data))
+st.write(avg_session_duration)
+
 
 # Function to query GPT-4 with data context
 def query_gpt4(prompt, data):
