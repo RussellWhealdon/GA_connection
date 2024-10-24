@@ -47,6 +47,8 @@ def get_ga_summary_data():
     
     # Create a DataFrame with appropriate column names
     df = pd.DataFrame(rows, columns=['Date', 'City', 'Channel', 'Active Users', 'Sessions', 'Bounce Rate'])
+
+    df['Date'] = pd.to_datetime(df['Date'])
     df['Date'] = df['Date'].dt.date
 
 
