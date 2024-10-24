@@ -18,11 +18,9 @@ def get_ga_summary_data():
         metrics=[Metric(name="activeUsers")],
         date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-31")],
     )
-    try:
-        response = client.run_report(request)
-        print(response)
-    except Exception as e:
-        print(f"Error: {e}")
+    
+    response = client.run_report(request)
+    st.write(response)
     
     # Process response to a DataFrame
     rows = []
