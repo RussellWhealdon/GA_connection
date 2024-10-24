@@ -132,6 +132,25 @@ def create_ga_summary(df):
 
     return summary
 
+def query_gpt4(prompt, data_summary):
+    try:
+        # Combine the user prompt with the GA summary
+        full_prompt = f"Here is the website performance summary:\n\n{data_summary}\n\n{prompt}"
+
+        # Send the combined prompt to GPT-4
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a data analyst."},
+                {"role": "user", "content": full_prompt}
+            ]
+        )
+
+        # Return the response from GPT-4
+        return response.choices[0].message.content
+
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
@@ -143,26 +162,11 @@ st.dataframe(ga_data)
 
 st.write(create_ga_summary(ga_data))
 
-# Function to query GPT-4 with data context
-def query_gpt4(prompt, data):
-    try:
-        response = openai.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a data analyst."},
-                {"role": "user", "content": f"Here is some Google Analytics data:\n\n{data}\n\n{prompt}"}
-            ]
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
-
-# Let the user ask GPT-4 a question
+# Let the user ask GPT-4 a question about the data
 user_prompt = st.text_input("Ask GPT-4 something about this data:")
 
-# If the user provides a prompt, analyze it
+# If the user provides a prompt, analyze it using GPT-4
 if user_prompt:
-    data_summary = ga_data.head().to_csv(index=False)  # Summarize the data for GPT-4
     st.write("GPT-4 is analyzing the data...")
-    response = query_gpt4(user_prompt, data_summary)
+    response = query_gpt4(user_prompt, ga_summary)
     st.write(response)
