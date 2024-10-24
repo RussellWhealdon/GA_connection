@@ -18,7 +18,7 @@ def get_ga_summary_data():
         property=f"properties/{property_id}",
         dimensions=[
             Dimension(name="date"),
-            #Dimension(name="city"),
+            Dimension(name="city"),
             #Dimension(name="source")
         ],  # Add 'date' as a dimension
         metrics=[
