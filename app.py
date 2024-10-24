@@ -13,9 +13,15 @@ client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
 
 # Function to fetch Google Analytics data with channel breakdowns
 def get_ga_summary_data():
+# Create a request with multiple metrics and 'date' as a dimension
     request = RunReportRequest(
         property=f"properties/{property_id}",
-        metrics=[Metric(name="activeUsers")],
+        dimensions=[Dimension(name="date")],  # Add 'date' as a dimension
+        metrics=[
+            Metric(name="activeUsers"),
+            Metric(name="sessions"),         # Add more metrics as needed
+            Metric(name="bounceRate")
+        ],
         date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-30")],
     )
     
