@@ -21,16 +21,6 @@ def get_ga_summary_data():
     
     response = client.run_report(request)
     st.write(response)
-    
-    # Extract metric headers and values
-    metric_names = [header["name"] for header in response["metric_headers"]]
-    data = []
-    for row in response["rows"]:
-        metric_values = [metric["value"] for metric in row["metric_values"]]
-        data.append(metric_values)
-
-    # Create DataFrame
-    df = pd.DataFrame(data, columns=metric_names)
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
