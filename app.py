@@ -26,17 +26,7 @@ def get_ga_summary_data():
         print(f"Dimensions: {row.dimension_values}")
         print(f"Metrics: {row.metric_values}")
     
-    # Process response to a DataFrame
-    rows = []
-    for row in response.rows:
-        rows.append({
-            "source": row.dimension_values[1].value,
-            "sessions": row.metric_values[0].value,
-            "activeUsers": row.metric_values[1].value,
-            "bounceRate": row.metric_values[2].value
-        })
     st.write(response)
-    return pd.DataFrame(rows)
 
 st.title("Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
