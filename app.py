@@ -27,7 +27,7 @@ def get_ga_summary_data():
         metrics=[
             Metric(name="sessions"),                    # Total sessions
             Metric(name="activeUsers"),                 # Total active users
-            Metric(name="pageviews"),                   # Total pageviews
+            Metric(name="screenPageViews"),             # Total pageviews
             Metric(name="uniquePageviews"),             # Unique pageviews
             Metric(name="bounceRate"),                  # Bounce rate
             Metric(name="averageSessionDuration"),      # Average session duration
