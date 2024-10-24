@@ -87,10 +87,22 @@ def convert_duration_to_seconds(duration):
     except Exception:
         return 0  # If conversion fails, return 0
 
+def convert_rate_to_float(rate):
+    try:
+        # Remove "%" symbol and convert to float
+        return float(rate.strip('%')) / 100
+    except Exception:
+        return None  # Return None for invalid data
 
 def create_ga_summary(df):
     # Convert 'Avg. Session Duration' from time format to seconds
     df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_duration_to_seconds)
+
+    # Convert 'Bounce Rate' and other rate-based metrics to floats
+    df['Bounce Rate'] = df['Bounce Rate'].apply(convert_rate_to_float)
+    
+    # Force conversion to numeric, coerce errors to NaN
+    df['Bounce Rate'] = pd.to_numeric(df['Bounce Rate'], errors='coerce')
     
     # Extract necessary insights from the DataFrame
     total_sessions = df['Sessions'].sum()
