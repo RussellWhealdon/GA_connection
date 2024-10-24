@@ -21,10 +21,6 @@ def get_ga_summary_data():
     
     response = client.run_report(request)
     st.write(response)
-
-    for row in response.rows:
-        print(f"Dimensions: {row.dimension_values}")
-        print(f"Metrics: {row.metric_values}")
     
     # Extract metric headers and values
     metric_names = [header["name"] for header in response["metric_headers"]]
