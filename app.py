@@ -55,9 +55,9 @@ def get_ga_summary_data():
         pageviews = row.metric_values[2].value  # Extract pageviews
         bounce_rate = row.metric_values[3].value  # Extract bounce rate
         avg_session_duration = row.metric_values[4].value  # Extract average session duration
-        new_users = row.metric_values[7].value  # Extract new users
-        transactions = row.metric_values[8].value  # Extract transactions
-        revenue = row.metric_values[9].value  # Extract total revenue
+        new_users = row.metric_values[5].value  # Extract new users
+        transactions = row.metric_values[6].value  # Extract transactions
+        revenue = row.metric_values[7].value  # Extract total revenue
     
         # Append all the extracted data to the list
         rows.append([
