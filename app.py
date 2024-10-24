@@ -31,8 +31,6 @@ def get_ga_summary_data():
             Metric(name="bounceRate"),                  # Bounce rate
             Metric(name="averageSessionDuration"),      # Average session duration
             Metric(name="newUsers"),                    # New users
-            Metric(name="transactions"),                # Transactions (for e-commerce)
-            Metric(name="totalRevenue")                 # Revenue (for e-commerce)
         ],
         date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-30")],  # Last month
     )
@@ -56,22 +54,19 @@ def get_ga_summary_data():
         bounce_rate = row.metric_values[3].value  # Extract bounce rate
         avg_session_duration = row.metric_values[4].value  # Extract average session duration
         new_users = row.metric_values[5].value  # Extract new users
-        transactions = row.metric_values[6].value  # Extract transactions
-        revenue = row.metric_values[7].value  # Extract total revenue
     
         # Append all the extracted data to the list
         rows.append([
             date, city, channel, device, country, landing_page, sessions,
             active_users, pageviews, bounce_rate,
-            avg_session_duration, new_users, transactions, revenue
+            avg_session_duration, new_users
         ])
     
     # Create a DataFrame with the appropriate column names
     df = pd.DataFrame(rows, columns=[
         'Date', 'City', 'Channel', 'Device', 'Country', 'Landing Page', 
         'Sessions', 'Active Users', 'Pageviews', 
-        'Bounce Rate', 'Avg. Session Duration', 'New Users', 
-        'Transactions', 'Revenue'
+        'Bounce Rate', 'Avg. Session Duration', 'New Users'
     ])
 
     df['Date'] = pd.to_datetime(df['Date'])
