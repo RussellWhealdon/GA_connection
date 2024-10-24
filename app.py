@@ -102,10 +102,10 @@ def create_ga_summary(df):
 
     
     # Convert 'Avg. Session Duration' from time format to seconds
-    df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_duration_to_seconds)
+    #df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_duration_to_seconds)
 
     # Convert 'Bounce Rate' and other rate-based metrics to floats
-    df['Bounce Rate'] = df['Bounce Rate'].apply(convert_rate_to_float)
+    #df['Bounce Rate'] = df['Bounce Rate'].apply(convert_rate_to_float)
     
     # Force conversion to numeric, coerce errors to NaN
     df['Bounce Rate'] = pd.to_numeric(df['Bounce Rate'], errors='coerce')
