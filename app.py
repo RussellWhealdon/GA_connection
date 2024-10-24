@@ -76,7 +76,22 @@ def get_ga_summary_data():
 
     return df
 
+def convert_duration_to_seconds(duration):
+    # Convert 'H:MM:SS' or 'MM:SS' format to total seconds
+    try:
+        time_parts = list(map(int, duration.split(":")))
+        if len(time_parts) == 3:  # Format: HH:MM:SS
+            return time_parts[0] * 3600 + time_parts[1] * 60 + time_parts[2]
+        elif len(time_parts) == 2:  # Format: MM:SS
+            return time_parts[0] * 60 + time_parts[1]
+    except Exception:
+        return 0  # If conversion fails, return 0
+
+
 def create_ga_summary(df):
+    # Convert 'Avg. Session Duration' from time format to seconds
+    df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_duration_to_seconds)
+    
     # Extract necessary insights from the DataFrame
     total_sessions = df['Sessions'].sum()
     avg_session_duration = df['Avg. Session Duration'].mean()
