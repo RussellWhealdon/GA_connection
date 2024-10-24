@@ -30,7 +30,6 @@ def get_ga_summary_data():
     rows = []
     for row in response.rows:
         rows.append({
-            "date": row.dimension_values[0].value,
             "source": row.dimension_values[1].value,
             "sessions": row.metric_values[0].value,
             "activeUsers": row.metric_values[1].value,
