@@ -149,13 +149,13 @@ def create_ga_summary(df):
         for week, row in weekly_data.iterrows()
     ])
 
-    # Add WTD data
-    wtd_summary = (
-        f"Week-to-Date (WTD): Sessions: {wtd_data['Sessions']}, Active Users: {wtd_data['Active Users']}, "
-        f"New Users: {wtd_data['New Users']}, Avg. Session Duration: {wtd_data['Avg. Session Duration']:.2f} mins, "
-        f"Bounce Rate: {wtd_data['Bounce Rate']:.2f}%"
-    )
-
+    # Build the weekly summary string
+    weekly_summary = "\n".join([
+        f"{week.to_timestamp().strftime('%m/%d')}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
+        f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
+        f"Bounce Rate: {row['Bounce Rate']:.2f}%"
+        for week, row in weekly_data.iterrows()
+    ])
     # Construct final summary string
     summary = (
         f"Website Performance Overview (Last 5 Weeks + WTD):\n\n"
