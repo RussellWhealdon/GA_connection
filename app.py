@@ -143,7 +143,7 @@ def create_ga_summary(df):
 
     # Build the weekly summary string
     weekly_summary = "\n".join([
-        f"{week.strftime('%m/%d')}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
+        f"{week}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
         f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
         f"Bounce Rate: {row['Bounce Rate']:.2f}%"
         for week, row in weekly_data.iterrows()
