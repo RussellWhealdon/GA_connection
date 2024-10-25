@@ -32,7 +32,7 @@ def get_ga_summary_data():
             Metric(name="averageSessionDuration"),      # Average session duration
             Metric(name="newUsers"),                    # New users
         ],
-        date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-09-30")],  # Last month
+        date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-10-25")],  # Last month - Present
     )
     
     response = client.run_report(request)
