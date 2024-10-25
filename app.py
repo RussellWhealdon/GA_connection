@@ -177,7 +177,6 @@ openai.api_key = st.secrets["openai"]["api_key"]
 gpt_client = openai.OpenAI(api_key=openai.api_key)
 
 
-
 def query_gpt4(prompt, data_summary):
     try:
         # Combine the user prompt with the GA summary
@@ -204,14 +203,16 @@ st.write("Google Analytics Data:")
 # Fetch and display Google Analytics data
 ga_data = get_ga_summary_data()
 
-st.dataframe(ga_data)
+st.expander("See Raw Website Data"):
+    st.dataframe(ga_data)
 
 # Generate the performance summary
 ga_summary = create_ga_summary(ga_data)
 
-# Show the generated summary
-st.write("Generated Performance Summary:")
-st.write(ga_summary)
+st.expander("See Raw Website Data"):
+    # Show the generated summary
+    st.write("Generated Performance Summary:")
+    st.write(ga_summary)
 
 # Let the user ask GPT-4 a question about the data
 user_prompt = st.text_input("Ask GPT-4 something about this data:")
