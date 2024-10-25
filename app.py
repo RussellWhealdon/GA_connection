@@ -100,10 +100,10 @@ def create_ga_summary(df):
         df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
 
     # Convert 'Date' column to datetime if it's not already
-    df['Date'] = pd.to_datetime(df['Date']).dt.date  # Convert to just date
+    df['Date'] = pd.to_datetime(df['Date']).dt.date  # Convert to just the date
 
     # Create a new column 'week' which will group data by weeks starting from Sunday
-    df['week'] = df['Date'].apply(lambda x: x - pd.Timedelta(days=x.weekday()))  # Adjust to Sunday start
+    df['week'] = df['Date'] - pd.to_timedelta(df['Date'].dt.weekday, unit='D')
 
     # Calculate total for each metric
     total_sessions = df['Sessions'].sum()
@@ -119,6 +119,15 @@ def create_ga_summary(df):
     # Create a Week-to-Date filter for the current week
     wtd_filter = (df['Date'] >= df['week'].max()) & (df['Date'] <= pd.Timestamp.today().date())
 
+    # Group data by week and sum metrics for each week
+    weekly_data = last_5_weeks.groupby('week').agg({
+        'Sessions': 'sum',
+        'Active Users': 'sum',
+        'New Users': 'sum',
+        'Avg. Session Duration': 'sum',
+        'Bounce Rate': 'mean'
+    }).reset_index()
+
     # Calculate WTD values
     wtd_data = df[wtd_filter].agg({
         'Sessions': 'sum',
@@ -131,7 +140,6 @@ def create_ga_summary(df):
     # Convert avg session duration to minutes for weekly data
     weekly_data['Avg. Session Duration'] = weekly_data['Avg. Session Duration'] / weekly_data['Sessions'] / 60
     wtd_data['Avg. Session Duration'] = wtd_data['Avg. Session Duration'] / wtd_data['Sessions'] / 60
-
 
     # Build the weekly summary string
     weekly_summary = "\n".join([
@@ -147,7 +155,7 @@ def create_ga_summary(df):
         f"New Users: {wtd_data['New Users']}, Avg. Session Duration: {wtd_data['Avg. Session Duration']:.2f} mins, "
         f"Bounce Rate: {wtd_data['Bounce Rate']:.2f}%"
     )
-    
+
     # Construct final summary string
     summary = (
         f"Website Performance Overview (Last 5 Weeks + WTD):\n\n"
