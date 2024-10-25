@@ -135,13 +135,16 @@ def create_ga_summary(df):
 
     return summary
 
+# Initialize OpenAI client
+gpt_client = openai.OpenAI(api_key=openai_api_key)
+
 def query_gpt4(prompt, data_summary):
     try:
         # Combine the user prompt with the GA summary
         full_prompt = f"Here is the website performance summary:\n\n{data_summary}\n\n{prompt}"
 
-        # Send the combined prompt to GPT-4 using the 'messages' parameter
-        response = openai.ChatCompletion.create(
+        # Send the combined prompt to GPT-4 using the 'messages' parameter for chat-based models
+        response = gpt_client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a data analyst."},
