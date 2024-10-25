@@ -99,39 +99,76 @@ def create_ga_summary(df):
     for col in numeric_columns:
         df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
 
-    
-    # Convert 'Avg. Session Duration' from time format to seconds
-    #df['Avg. Session Duration'] = df['Avg. Session Duration'].apply(convert_duration_to_seconds)
+    # Convert 'date' column to datetime if it's not already
+    df['date'] = pd.to_datetime(df['date'])
 
-    # Convert 'Bounce Rate' and other rate-based metrics to floats
-    #df['Bounce Rate'] = df['Bounce Rate'].apply(convert_rate_to_float)
-    
-    # Extract necessary insights from the DataFrame
+    # Create a new column 'week' which will group data by weeks starting from Sunday
+    df['week'] = df['date'].dt.to_period('W-SUN').apply(lambda r: r.start_time)
+
+    # Calculate total for each metric
     total_sessions = df['Sessions'].sum()
+    total_active_users = df['Active Users'].sum()
+    new_users = df['New Users'].sum()
     total_duration = df['Avg. Session Duration'].sum()
     avg_session_duration = (total_duration / total_sessions) / 60  # Convert from seconds to minutes
     bounce_rate = df['Bounce Rate'].mean()
-    total_active_users = df['Active Users'].sum()
-    new_users = df['New Users'].sum()
-    top_channel = df.groupby('Channel')['Sessions'].sum().idxmax()  # Get the channel with most sessions
-    top_city = df.groupby('City')['Sessions'].sum().idxmax()  # Get the city with most sessions
-    top_device = df.groupby('Device')['Sessions'].sum().idxmax()  # Get the device with most sessions
 
-    # Construct summary string
+    # Calculate the last 5 weeks plus WTD (Week-to-Date)
+    last_5_weeks = df[df['week'] >= df['week'].max() - pd.Timedelta(weeks=5)].copy()
+
+    # Create a Week-to-Date filter for the current week
+    wtd_filter = (df['date'] >= df['week'].max()) & (df['date'] <= pd.Timestamp.today())
+
+    # Group data by week and sum metrics for each week
+    weekly_data = last_5_weeks.groupby('week').agg({
+        'Sessions': 'sum',
+        'Active Users': 'sum',
+        'New Users': 'sum',
+        'Avg. Session Duration': 'sum',
+        'Bounce Rate': 'mean'
+    }).reset_index()
+
+    # Calculate WTD values
+    wtd_data = df[wtd_filter].agg({
+        'Sessions': 'sum',
+        'Active Users': 'sum',
+        'New Users': 'sum',
+        'Avg. Session Duration': 'sum',
+        'Bounce Rate': 'mean'
+    })
+
+    # Convert avg session duration to minutes for weekly data
+    weekly_data['Avg. Session Duration'] = weekly_data['Avg. Session Duration'] / weekly_data['Sessions'] / 60
+    wtd_data['Avg. Session Duration'] = wtd_data['Avg. Session Duration'] / wtd_data['Sessions'] / 60
+
+    # Build the weekly summary string
+    weekly_summary = "\n".join([
+        f"{week.strftime('%m/%d')}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
+        f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
+        f"Bounce Rate: {row['Bounce Rate']:.2f}%"
+        for week, row in weekly_data.iterrows()
+    ])
+
+    # Add WTD data
+    wtd_summary = (
+        f"Week-to-Date (WTD): Sessions: {wtd_data['Sessions']}, Active Users: {wtd_data['Active Users']}, "
+        f"New Users: {wtd_data['New Users']}, Avg. Session Duration: {wtd_data['Avg. Session Duration']:.2f} mins, "
+        f"Bounce Rate: {wtd_data['Bounce Rate']:.2f}%"
+    )
+
+    # Construct final summary string
     summary = (
-        f"Website Performance Overview:\n\n"
-        f"1. Total Sessions: {total_sessions}\n"
-        f"2. Active Users: {total_active_users}\n"
-        f"3. New Users: {new_users}\n"
-        f"4. Average Session Duration: {avg_session_duration:.2f} minutes\n"
-        f"5. Bounce Rate: {bounce_rate:.2f}%\n"
-        f"6. Top Traffic Channel: {top_channel}\n"
-        f"7. Top City: {top_city}\n"
-        f"8. Top Device: {top_device}\n"
+        f"Website Performance Overview (Last 5 Weeks + WTD):\n\n"
+        f"{weekly_summary}\n\n"
+        f"{wtd_summary}\n\n"
+        f"Total Sessions: {total_sessions}\n"
+        f"Total Active Users: {total_active_users}\n"
+        f"Total New Users: {new_users}\n"
+        f"Average Session Duration: {avg_session_duration:.2f} minutes\n"
+        f"Bounce Rate: {bounce_rate:.2f}%"
     )
 
     return summary
-
 
 # Load the OpenAI API key from Streamlit secrets
 openai.api_key = st.secrets["openai"]["api_key"]
