@@ -156,7 +156,7 @@ def query_gpt4(prompt, data_summary):
         )
 
         # Return the response from GPT-4
-        return response.choices[0].message["content"]
+        return response.choices[0].message.content
 
     except Exception as e:
         return f"An error occurred: {str(e)}"
