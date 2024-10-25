@@ -100,7 +100,7 @@ def create_ga_summary(df):
         df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
 
     # Convert 'Date' column to datetime if it's not already
-    df['Date'] = pd.to_datetime(df['Date']).dt.date  # Convert to just the date
+    df['Date'] = pd.to_datetime(df['Date'])  # Keep as datetime for .dt access
 
     # Create a new column 'week' which will group data by weeks starting from Sunday
     df['week'] = df['Date'] - pd.to_timedelta(df['Date'].dt.weekday, unit='D')
@@ -117,7 +117,7 @@ def create_ga_summary(df):
     last_5_weeks = df[df['week'] >= df['week'].max() - pd.Timedelta(weeks=5)].copy()
 
     # Create a Week-to-Date filter for the current week
-    wtd_filter = (df['Date'] >= df['week'].max()) & (df['Date'] <= pd.Timestamp.today().date())
+    wtd_filter = (df['Date'] >= df['week'].max()) & (df['Date'] <= pd.Timestamp.today())
 
     # Group data by week and sum metrics for each week
     weekly_data = last_5_weeks.groupby('week').agg({
@@ -143,7 +143,7 @@ def create_ga_summary(df):
 
     # Build the weekly summary string
     weekly_summary = "\n".join([
-        f"{week}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
+        f"{week.strftime('%m/%d')}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
         f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
         f"Bounce Rate: {row['Bounce Rate']:.2f}%"
         for week, row in weekly_data.iterrows()
