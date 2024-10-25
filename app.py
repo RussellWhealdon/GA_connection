@@ -162,6 +162,10 @@ def create_ga_summary(df):
         f"Bounce Rate: {wtd_data['Bounce Rate']:.2f}%"
     )
 
+    top_channel = df.groupby('Channel')['Sessions'].sum().idxmax()  # Get the channel with most sessions
+    top_city = df.groupby('City')['Sessions'].sum().idxmax()  # Get the city with most sessions
+    top_device = df.groupby('Device')['Sessions'].sum().idxmax()  # Get the device with most sessions
+
     # Construct final summary string
     summary = (
         f"Website Performance Overview (Last 5 Weeks + WTD):\n\n"
@@ -171,7 +175,10 @@ def create_ga_summary(df):
         f"Total Active Users: {total_active_users}\n"
         f"Total New Users: {new_users}\n"
         f"Average Session Duration: {avg_session_duration:.2f} minutes\n"
-        f"Bounce Rate: {bounce_rate:.2f}%"
+        f"Bounce Rate: {bounce_rate:.2f}%\n"
+        f"Top Traffic Channel: {top_channel}\n"
+        f"Top City: {top_city}\n"
+        f"Top Device: {top_device}\n"
     )
 
     return summary
