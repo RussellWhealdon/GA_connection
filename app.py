@@ -11,6 +11,12 @@ property_id = st.secrets["google_service_account"]["property_id"]
 # Initialize GA Client using the service account JSON
 client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
 
+# Set page configuration
+st.set_page_config(
+    page_title="Google Analytics Data Dashboard",
+    layout="wide",  # This enables the wide layout
+)
+
 # Function to fetch Google Analytics data with channel breakdowns
 def get_ga_summary_data():
     # Create a request with multiple metrics and 'date' as a dimension
