@@ -119,14 +119,6 @@ def create_ga_summary(df):
     # Create a Week-to-Date filter for the current week
     wtd_filter = (df['Date'] >= df['week'].max()) & (df['Date'] <= pd.Timestamp.today().date())
 
-    # Build the weekly summary string
-    weekly_summary = "\n".join([
-        f"{week}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
-        f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
-        f"Bounce Rate: {row['Bounce Rate']:.2f}%"
-        for week, row in weekly_data.iterrows()
-    ])
-
     # Calculate WTD values
     wtd_data = df[wtd_filter].agg({
         'Sessions': 'sum',
@@ -143,7 +135,7 @@ def create_ga_summary(df):
 
     # Build the weekly summary string
     weekly_summary = "\n".join([
-        f"{week.to_timestamp().strftime('%m/%d')}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
+        f"{week}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
         f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
         f"Bounce Rate: {row['Bounce Rate']:.2f}%"
         for week, row in weekly_data.iterrows()
