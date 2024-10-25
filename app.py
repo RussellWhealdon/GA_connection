@@ -203,13 +203,12 @@ st.write("Google Analytics Data:")
 # Fetch and display Google Analytics data
 ga_data = get_ga_summary_data()
 
-with st.expander("See Raw Website Data"):
-    st.dataframe(ga_data)
+st.dataframe(ga_data)
 
 # Generate the performance summary
 ga_summary = create_ga_summary(ga_data)
 
-with st.expander("See Raw Website Data"):
+with st.expander("See Performance Summary given to ChatGPT"):
     # Show the generated summary
     st.write("Generated Performance Summary:")
     st.write(ga_summary)
