@@ -99,11 +99,11 @@ def create_ga_summary(df):
     for col in numeric_columns:
         df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
 
-    # Convert 'date' column to datetime if it's not already
-    df['Date'] = pd.to_datetime(df['Date'])
+    # Convert 'Date' column to datetime if it's not already
+    df['Date'] = pd.to_datetime(df['Date']).dt.date  # Convert to just date
 
     # Create a new column 'week' which will group data by weeks starting from Sunday
-    df['Week'] = df['Date'].dt.to_period('W-SUN').apply(lambda r: r.start_time)
+    df['week'] = df['Date'].apply(lambda x: x - pd.Timedelta(days=x.weekday()))  # Adjust to Sunday start
 
     # Calculate total for each metric
     total_sessions = df['Sessions'].sum()
@@ -114,13 +114,13 @@ def create_ga_summary(df):
     bounce_rate = df['Bounce Rate'].mean()
 
     # Calculate the last 5 weeks plus WTD (Week-to-Date)
-    last_5_weeks = df[df['Week'] >= df['Week'].max() - pd.Timedelta(weeks=5)].copy()
+    last_5_weeks = df[df['week'] >= df['week'].max() - pd.Timedelta(weeks=5)].copy()
 
     # Create a Week-to-Date filter for the current week
-    wtd_filter = (df['Date'] >= df['Week'].max()) & (df['Date'] <= pd.Timestamp.today())
+    wtd_filter = (df['Date'] >= df['week'].max()) & (df['Date'] <= pd.Timestamp.today().date())
 
     # Group data by week and sum metrics for each week
-    weekly_data = last_5_weeks.groupby('Week').agg({
+    weekly_data = last_5_weeks.groupby('week').agg({
         'Sessions': 'sum',
         'Active Users': 'sum',
         'New Users': 'sum',
