@@ -82,6 +82,7 @@ st.write("Google Analytics Data:")
 # Fetch and display the enhanced Google Analytics data
 ga_data = fetch_ga4_extended_data()
 st.dataframe(ga_data)
+st.write(ga_data[ga_data["Event Name"] == "generate_lead"]["Event Count"].astype(float).sum())
 
 
 ## Generate the performance summary using the enhanced data
