@@ -18,7 +18,6 @@ def fetch_ga4_extended_data():
             Dimension(name="date"),                     # Break down by date
             Dimension(name="pagePath"),                 # Page path for performance by page
             Dimension(name="sessionSource"),            # Source where the session originated
-            Dimension(name="searchTerm"),               # Search query terms
             Dimension(name="firstUserCampaignName"),    # Campaign details, useful for origin analysis
             Dimension(name="firstUserSourceMedium"),    # Where people came from originally
             Dimension(name="landingPagePlusQueryString"),
@@ -44,11 +43,10 @@ def fetch_ga4_extended_data():
         date = row.dimension_values[0].value
         page_path = row.dimension_values[1].value
         session_source = row.dimension_values[2].value
-        search_term = row.dimension_values[3].value
-        campaign_name = row.dimension_values[4].value
-        source_medium = row.dimension_values[5].value
-        lp_query = row.dimension_values[6].value
-        event_name = row.dimension_values[7].value
+        campaign_name = row.dimension_values[3].value
+        source_medium = row.dimension_values[4].value
+        lp_query = row.dimension_values[5].value
+        event_name = row.dimension_values[6].value
             
         sessions = row.metric_values[0].value
         pageviews = row.metric_values[1].value
@@ -59,13 +57,13 @@ def fetch_ga4_extended_data():
         
         # Append the data to the list
         rows.append([
-            date, page_path, session_source, search_term, campaign_name, source_medium, lp_query, event_name,
+            date, page_path, session_source, campaign_name, source_medium, lp_query, event_name,
             sessions, pageviews, bounce_rate, avg_session_duration, new_users, event_count
         ])
     
     # Create DataFrame from the list of rows
     df = pd.DataFrame(rows, columns=[
-        'Date', 'Page Path', 'Session Source', 'Search Term', 'Campaign Name', 'Source/Medium', "Lp/Query", "Event Name", 
+        'Date', 'Page Path', 'Session Source', 'Campaign Name', 'Source/Medium', "Lp/Query", "Event Name", 
         'Sessions', 'Pageviews', 'Bounce Rate', 'Avg. Session Duration', 'New Users', "Event Count"
     ])
     
