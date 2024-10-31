@@ -25,7 +25,7 @@ def fetch_ga4_extended_data():
         metrics=[
             Metric(name="sessions"),                   # Total sessions
             Metric(name="screenPageViews"),            # Total page views
-            Metric(name="generateLead"),               # Lead conversion metric
+            Metric(name="Lead"),               # Lead conversion metric
             Metric(name="bounceRate"),                 # Bounce rate
             Metric(name="averageSessionDuration"),     # Average session duration
             Metric(name="newUsers"),                   # New users
