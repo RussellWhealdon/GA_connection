@@ -73,4 +73,7 @@ def fetch_ga4_extended_data():
     df['Date'] = pd.to_datetime(df['Date'])
     df.sort_values(by='Date', inplace=True)
 
+    # Filter rows where Event Name is "generate_lead" and create a new 'Leads' column
+    df['Leads'] = df.apply(lambda row: float(row['Event Count']) if row['Event Name'] == "generate_lead" else 0, axis=1)
+
     return df
