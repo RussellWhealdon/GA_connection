@@ -1,201 +1,67 @@
 import openai
 import streamlit as st
 import pandas as pd
-from google.analytics.data_v1beta import BetaAnalyticsDataClient
-from google.analytics.data_v1beta.types import RunReportRequest, DateRange, Dimension, Metric
+from ga4_data_pull import fetch_ga4_extended_data  # Import the new data pull function
 
-# Load the secrets for the service account path and property ID
-service_account_info = st.secrets["google_service_account"]  # Load service account JSON from secrets
-property_id = st.secrets["google_service_account"]["property_id"]
-
-# Initialize GA Client using the service account JSON
-client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
+# Load the OpenAI API key from Streamlit secrets
+openai.api_key = st.secrets["openai"]["api_key"]
 
 # Set page configuration
 st.set_page_config(
-    page_title="Google Analytics Data Dashboard",
-    layout="wide",  # This enables the wide layout
+    page_title="Enhanced Google Analytics Data Dashboard",
+    layout="wide",  # Enable the wide layout
 )
 
-# Function to fetch Google Analytics data with channel breakdowns
-def get_ga_summary_data():
-    # Create a request with multiple metrics and 'date' as a dimension
-    request = RunReportRequest(
-        property=f"properties/{property_id}",
-        dimensions=[
-            Dimension(name="date"),                     # Break down by date
-            Dimension(name="city"),                     # Break down by city
-            Dimension(name="firstUserPrimaryChannelGroup"),  # Source/Medium
-            Dimension(name="deviceCategory"),           # Break down by device category (desktop, mobile, tablet)
-            Dimension(name="country"),                  # Break down by country
-            Dimension(name="landingPagePlusQueryString")  # Break down by landing page
-        ],
-        metrics=[
-            Metric(name="sessions"),                    # Total sessions
-            Metric(name="activeUsers"),                 # Total active users
-            Metric(name="screenPageViews"),             # Total pageviews     
-            Metric(name="bounceRate"),                  # Bounce rate
-            Metric(name="averageSessionDuration"),      # Average session duration
-            Metric(name="newUsers"),                    # New users
-        ],
-        date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-10-25")],  # Last month - Present
-    )
-    
-    response = client.run_report(request)
-    rows = []
-    # Loop through the rows and extract all dimensions and metrics
-    for row in response.rows:
-        # Extract dimension values using dot notation
-        date = row.dimension_values[0].value  # Extract the date
-        city = row.dimension_values[1].value  # Extract the city
-        channel = row.dimension_values[2].value  # Extract the traffic source
-        device = row.dimension_values[3].value  # Extract the device category
-        country = row.dimension_values[4].value  # Extract the country
-        landing_page = row.dimension_values[5].value  # Extract the landing page
-    
-        # Extract metric values using dot notation
-        sessions = row.metric_values[0].value  # Extract sessions
-        active_users = row.metric_values[1].value  # Extract active users
-        pageviews = row.metric_values[2].value  # Extract pageviews
-        bounce_rate = row.metric_values[3].value  # Extract bounce rate
-        avg_session_duration = row.metric_values[4].value  # Extract average session duration
-        new_users = row.metric_values[5].value  # Extract new users
-    
-        # Append all the extracted data to the list
-        rows.append([
-            date, city, channel, device, country, landing_page, sessions,
-            active_users, pageviews, bounce_rate,
-            avg_session_duration, new_users
-        ])
-    
-    # Create a DataFrame with the appropriate column names
-    df = pd.DataFrame(rows, columns=[
-        'Date', 'City', 'Channel', 'Device', 'Country', 'Landing Page', 
-        'Sessions', 'Active Users', 'Pageviews', 
-        'Bounce Rate', 'Avg. Session Duration', 'New Users'
-    ])
+# Initialize OpenAI client
+gpt_client = openai.OpenAI(api_key=openai.api_key)
 
-    df['Date'] = pd.to_datetime(df['Date'])
-    df['Date'] = df['Date'].dt.date
-
-    df.sort_values(by = ['Date'], inplace =True)
-    return df
-
-def convert_duration_to_seconds(duration):
-    # Convert 'H:MM:SS' or 'MM:SS' format to total seconds
-    try:
-        time_parts = list(map(int, duration.split(":")))
-        if len(time_parts) == 3:  # Format: HH:MM:SS
-            return time_parts[0] * 3600 + time_parts[1] * 60 + time_parts[2]
-        elif len(time_parts) == 2:  # Format: MM:SS
-            return time_parts[0] * 60 + time_parts[1]
-    except Exception:
-        return 0  # If conversion fails, return 0
-
-def convert_rate_to_float(rate):
-    try:
-        # Remove "%" symbol and convert to float
-        return float(rate.strip('%')) / 100
-    except Exception:
-        return None  # Return None for invalid data
-
-def create_ga_summary(df):
+# Function to create summary for new GA4 data
+def create_ga_extended_summary(df):
     # Ensure that numeric columns are truly numeric
-    numeric_columns = ['Sessions', 'Active Users', 'New Users', 'Avg. Session Duration', 'Bounce Rate']
+    numeric_columns = ['Sessions', 'Pageviews', 'Leads', 'Avg. Session Duration', 'Bounce Rate', 'New Users']
     for col in numeric_columns:
         df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
 
     # Convert 'Date' column to datetime if it's not already
     df['Date'] = pd.to_datetime(df['Date'])  # Keep as datetime for .dt access
 
-    # Create a new column 'week' which will group data by weeks starting from Sunday
-    df['week'] = df['Date'] - pd.to_timedelta(df['Date'].dt.weekday, unit='D')
-
-    # Calculate total for each metric
+    # Summarize main metrics
     total_sessions = df['Sessions'].sum()
-    total_active_users = df['Active Users'].sum()
-    new_users = df['New Users'].sum()
-    total_duration = df['Avg. Session Duration'].sum()
-    avg_session_duration = (total_duration / total_sessions) / 60  # Convert from seconds to minutes
-    bounce_rate = df['Bounce Rate'].mean()
+    total_pageviews = df['Pageviews'].sum()
+    total_leads = df['Leads'].sum()
+    avg_bounce_rate = df['Bounce Rate'].mean()
+    avg_session_duration = (df['Avg. Session Duration'].sum() / total_sessions) / 60  # Convert from seconds to minutes
+    total_new_users = df['New Users'].sum()
 
-    # Calculate the last 5 weeks plus WTD (Week-to-Date)
-    last_5_weeks = df[df['week'] >= df['week'].max() - pd.Timedelta(weeks=5)].copy()
+    # Calculate top entries for insights
+    top_page = df.groupby('Page Path')['Pageviews'].sum().idxmax()
+    top_search_term = df.groupby('Search Term')['Sessions'].sum().idxmax()
+    top_campaign = df.groupby('Campaign Name')['Leads'].sum().idxmax()
+    top_source = df.groupby('Source/Medium')['Sessions'].sum().idxmax()
 
-    # Create a Week-to-Date filter for the current week
-    wtd_filter = (df['Date'] >= df['week'].max()) & (df['Date'] <= pd.Timestamp.today())
-
-    # Group data by week and sum metrics for each week
-    weekly_data = last_5_weeks.groupby('week').agg({
-        'Sessions': 'sum',
-        'Active Users': 'sum',
-        'New Users': 'sum',
-        'Avg. Session Duration': 'sum',
-        'Bounce Rate': 'mean'
-    }).reset_index()
-
-    # Calculate WTD values
-    wtd_data = df[wtd_filter].agg({
-        'Sessions': 'sum',
-        'Active Users': 'sum',
-        'New Users': 'sum',
-        'Avg. Session Duration': 'sum',
-        'Bounce Rate': 'mean'
-    })
-
-    # Convert avg session duration to minutes for weekly data
-    weekly_data['Avg. Session Duration'] = weekly_data['Avg. Session Duration'] / weekly_data['Sessions'] / 60
-    wtd_data['Avg. Session Duration'] = wtd_data['Avg. Session Duration'] / wtd_data['Sessions'] / 60
-
-    # Build the weekly summary string
-    weekly_summary = "\n".join([
-        f"{week}: Sessions: {row['Sessions']}, Active Users: {row['Active Users']}, "
-        f"New Users: {row['New Users']}, Avg. Session Duration: {row['Avg. Session Duration']:.2f} mins, "
-        f"Bounce Rate: {row['Bounce Rate']:.2f}%"
-        for week, row in weekly_data.iterrows()
-    ])
-
-    # Add WTD data
-    wtd_summary = (
-        f"Week-to-Date (WTD): Sessions: {wtd_data['Sessions']}, Active Users: {wtd_data['Active Users']}, "
-        f"New Users: {wtd_data['New Users']}, Avg. Session Duration: {wtd_data['Avg. Session Duration']:.2f} mins, "
-        f"Bounce Rate: {wtd_data['Bounce Rate']:.2f}%"
-    )
-
-    top_channel = df.groupby('Channel')['Sessions'].sum().idxmax()  # Get the channel with most sessions
-    top_city = df.groupby('City')['Sessions'].sum().idxmax()  # Get the city with most sessions
-    top_device = df.groupby('Device')['Sessions'].sum().idxmax()  # Get the device with most sessions
-
-    # Construct final summary string
+    # Construct the summary string
     summary = (
-        f"Website Performance Overview (Last 5 Weeks + WTD):\n\n"
-        f"{weekly_summary}\n\n"
-        f"{wtd_summary}\n\n"
+        f"Extended Website Performance Overview:\n\n"
         f"Total Sessions: {total_sessions}\n"
-        f"Total Active Users: {total_active_users}\n"
-        f"Total New Users: {new_users}\n"
+        f"Total Pageviews: {total_pageviews}\n"
+        f"Total Leads: {total_leads}\n"
+        f"Average Bounce Rate: {avg_bounce_rate:.2f}%\n"
         f"Average Session Duration: {avg_session_duration:.2f} minutes\n"
-        f"Bounce Rate: {bounce_rate:.2f}%\n"
-        f"Top Traffic Channel: {top_channel}\n"
-        f"Top City: {top_city}\n"
-        f"Top Device: {top_device}\n"
+        f"Total New Users: {total_new_users}\n\n"
+        f"Top Page by Pageviews: {top_page}\n"
+        f"Top Search Term by Sessions: {top_search_term}\n"
+        f"Top Campaign by Leads: {top_campaign}\n"
+        f"Top Traffic Source: {top_source}\n"
     )
 
     return summary
 
-# Load the OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["openai"]["api_key"]
-
-# Initialize OpenAI client
-gpt_client = openai.OpenAI(api_key=openai.api_key)
-
-
 def query_gpt4(prompt, data_summary):
     try:
         # Combine the user prompt with the GA summary
-        full_prompt = f"Here is the website performance summary:\n\n{data_summary}\n\n{prompt}"
+        full_prompt = f"Here is the extended website performance summary:\n\n{data_summary}\n\n{prompt}"
 
-        # Send the combined prompt to GPT-4 using the 'messages' parameter for chat-based models
+        # Send the combined prompt to GPT-4
         response = gpt_client.chat.completions.create(
             model="gpt-4",
             messages=[
@@ -210,16 +76,15 @@ def query_gpt4(prompt, data_summary):
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-st.title("Google Analytics Data Analysis with GPT-4")
+st.title("Enhanced Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
 
-# Fetch and display Google Analytics data
-ga_data = get_ga_summary_data()
-
+# Fetch and display the enhanced Google Analytics data
+ga_data = fetch_ga4_extended_data()
 st.dataframe(ga_data)
 
-# Generate the performance summary
-ga_summary = create_ga_summary(ga_data)
+# Generate the performance summary using the enhanced data
+ga_summary = create_ga_extended_summary(ga_data)
 
 with st.expander("See Performance Summary given to ChatGPT"):
     # Show the generated summary
