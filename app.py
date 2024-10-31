@@ -1,7 +1,9 @@
 import openai
 import streamlit as st
 import pandas as pd
-from ga4_data_pull import fetch_ga4_extended_data  # Import the new data pull function
+from ga4_data_pull import fetch_ga4_extended_data 
+from gsc_data_pull import fetch_search_console_data
+
 
 # Load the OpenAI API key from Streamlit secrets
 openai.api_key = st.secrets["openai"]["api_key"]
@@ -84,6 +86,12 @@ ga_data = fetch_ga4_extended_data()
 st.dataframe(ga_data)
 st.write(ga_data[ga_data["Event Name"] == "generate_lead"]["Event Count"].astype(float).sum())
 
+# Fetch data from Google Search Console
+data = fetch_search_console_data()
+
+# Display data in the main app if needed
+st.title("Google Search Console Data")
+st.dataframe(data)
 
 ## Generate the performance summary using the enhanced data
 #ga_summary = create_ga_extended_summary(ga_data)
