@@ -83,6 +83,7 @@ st.write("Google Analytics Data:")
 ga_data = fetch_ga4_extended_data()
 st.dataframe(ga_data)
 
+'''
 # Generate the performance summary using the enhanced data
 ga_summary = create_ga_extended_summary(ga_data)
 
@@ -99,3 +100,4 @@ if user_prompt:
     st.write("GPT-4 is analyzing the data...")
     response = query_gpt4(user_prompt, ga_summary)
     st.write(response)
+'''
