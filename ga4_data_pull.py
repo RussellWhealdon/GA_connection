@@ -61,14 +61,14 @@ def fetch_ga4_extended_data():
         
         # Append the data to the list
         rows.append([
-            date, page_path, session_source, search_term, campaign_name, source_medium, lp_query,
-            sessions, pageviews, leads, bounce_rate, avg_session_duration, new_users
+            date, page_path, session_source, search_term, campaign_name, source_medium, lp_query, event_name,
+            sessions, pageviews, leads, bounce_rate, avg_session_duration, new_users, event_count
         ])
     
     # Create DataFrame from the list of rows
     df = pd.DataFrame(rows, columns=[
-        'Date', 'Page Path', 'Session Source', 'Search Term', 'Campaign Name', 'Source/Medium', "Lp/Query",
-        'Sessions', 'Pageviews', 'Leads', 'Bounce Rate', 'Avg. Session Duration', 'New Users'
+        'Date', 'Page Path', 'Session Source', 'Search Term', 'Campaign Name', 'Source/Medium', "Lp/Query", "Event Name", 
+        'Sessions', 'Pageviews', 'Leads', 'Bounce Rate', 'Avg. Session Duration', 'New Users', "Event Count"
     ])
     
     # Process date columns for easier handling
