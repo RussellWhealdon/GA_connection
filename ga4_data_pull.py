@@ -21,7 +21,8 @@ def fetch_ga4_extended_data():
             Dimension(name="searchTerm"),               # Search query terms
             Dimension(name="firstUserCampaignName"),    # Campaign details, useful for origin analysis
             Dimension(name="firstUserSourceMedium"),    # Where people came from originally
-            Dimension(name="landingPagePlusQueryString")
+            Dimension(name="landingPagePlusQueryString"),
+            Dimension(name="eventName")
         ],
         metrics=[
             Metric(name="sessions"),                   # Total sessions
@@ -30,6 +31,7 @@ def fetch_ga4_extended_data():
             Metric(name="bounceRate"),                 # Bounce rate
             Metric(name="averageSessionDuration"),     # Average session duration
             Metric(name="newUsers"),                   # New users
+            Metric(name="eventCount")
         ],
         date_ranges=[DateRange(start_date="2024-09-01", end_date="2024-10-25")],  # Define the date range
     )
@@ -47,13 +49,15 @@ def fetch_ga4_extended_data():
         campaign_name = row.dimension_values[4].value
         source_medium = row.dimension_values[5].value
         lp_query = row.dimension_values[6].value
-        
+        event_name = row.dimension_values[7].value
+            
         sessions = row.metric_values[0].value
         pageviews = row.metric_values[1].value
         leads = row.metric_values[2].value
         bounce_rate = row.metric_values[3].value
         avg_session_duration = row.metric_values[4].value
         new_users = row.metric_values[5].value
+        event_count = row.metric_values[6].value
         
         # Append the data to the list
         rows.append([
