@@ -83,21 +83,20 @@ st.write("Google Analytics Data:")
 ga_data = fetch_ga4_extended_data()
 st.dataframe(ga_data)
 
-'''
-# Generate the performance summary using the enhanced data
-ga_summary = create_ga_extended_summary(ga_data)
 
-with st.expander("See Performance Summary given to ChatGPT"):
+## Generate the performance summary using the enhanced data
+#ga_summary = create_ga_extended_summary(ga_data)
+
+#with st.expander("See Performance Summary given to ChatGPT"):
     # Show the generated summary
-    st.write("Generated Performance Summary:")
-    st.write(ga_summary)
+#    st.write("Generated Performance Summary:")
+#    st.write(ga_summary)
 
 # Let the user ask GPT-4 a question about the data
-user_prompt = st.text_input("Ask GPT-4 something about this data:")
+#user_prompt = st.text_input("Ask GPT-4 something about this data:")
 
 # If the user provides a prompt, analyze it using GPT-4
-if user_prompt:
-    st.write("GPT-4 is analyzing the data...")
-    response = query_gpt4(user_prompt, ga_summary)
-    st.write(response)
-'''
+#if user_prompt:
+#    st.write("GPT-4 is analyzing the data...")
+#    response = query_gpt4(user_prompt, ga_summary)
+#    st.write(response)
