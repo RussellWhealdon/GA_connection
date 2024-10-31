@@ -52,10 +52,10 @@ def fetch_ga4_extended_data():
             
         sessions = row.metric_values[0].value
         pageviews = row.metric_values[1].value
-        bounce_rate = row.metric_values[3].value
-        avg_session_duration = row.metric_values[4].value
-        new_users = row.metric_values[5].value
-        event_count = row.metric_values[6].value
+        bounce_rate = row.metric_values[2].value
+        avg_session_duration = row.metric_values[3].value
+        new_users = row.metric_values[4].value
+        event_count = row.metric_values[5].value
         
         # Append the data to the list
         rows.append([
