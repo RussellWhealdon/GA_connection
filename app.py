@@ -3,19 +3,38 @@ import streamlit as st
 import pandas as pd
 from ga4_data_pull import fetch_ga4_extended_data 
 from gsc_data_pull import fetch_search_console_data
+from llm_integration import load_model, query_gpt
 
 
-# Load the OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["openai"]["api_key"]
-
-# Set page configuration
+### Set page configuration
 st.set_page_config(
     page_title="Enhanced Google Analytics Data Dashboard",
     layout="wide",  # Enable the wide layout
 )
 
+###load credentials
+# Load the OpenAI API key from Streamlit secrets
+openai.api_key = st.secrets["openai"]["api_key"]
+
 # Initialize OpenAI client
 gpt_client = openai.OpenAI(api_key=openai.api_key)
+
+
+###Code to prep modeling
+# Load the model (only need to call this once)
+load_model()
+
+# Initialize session state for session-based memory
+if "session_summary" not in st.session_state:
+    st.session_state["session_summary"] = ""
+
+# Function to update session summary with each interaction
+def update_session_summary(user_question, model_response):
+    st.session_state["session_summary"] += f"\nUser: {user_question}\nModel: {model_response}\n"
+    # Limit the session summary to keep within token limits
+    if len(st.session_state["session_summary"]) > 1000:  # Adjust token limit as needed
+        st.session_state["session_summary"] = st.session_state["session_summary"][-1000:]
+
 
 # Function to create summary for new GA4 data
 def create_ga_extended_summary(df):
@@ -57,26 +76,7 @@ def create_ga_extended_summary(df):
     )
 
     return summary
-
-def query_gpt4(prompt, data_summary):
-    try:
-        # Combine the user prompt with the GA summary
-        full_prompt = f"Here is the extended website performance summary:\n\n{data_summary}\n\n{prompt}"
-
-        # Send the combined prompt to GPT-4
-        response = gpt_client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a data analyst."},
-                {"role": "user", "content": full_prompt}
-            ]
-        )
-
-        # Return the response from GPT-4
-        return response.choices[0].message.content
-
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
+    
 
 st.title("Enhanced Google Analytics Data Analysis with GPT-4")
 st.write("Google Analytics Data:")
