@@ -96,15 +96,9 @@ search_data = fetch_search_console_data()
 st.title("Google Search Console Data")
 st.dataframe(search_data)
 
+### Test summary functions
 #st.write(summarize_search_queries(search_data))
-
-## Generate the performance summary using the enhanced data
-#ga_summary = create_ga_extended_summary(ga_data)
-
-#with st.expander("See Performance Summary given to ChatGPT"):
-    # Show the generated summary
-#    st.write("Generated Performance Summary:")
-#    st.write(ga_summary)
+st.write(summarize_acquisition_sources(ga_data)
 
 # Let the user ask GPT-4 a question about the data
 #user_prompt = st.text_input("Ask GPT-4 something about this data:")
