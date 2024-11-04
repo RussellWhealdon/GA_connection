@@ -90,13 +90,13 @@ def summarize_acquisition_sources(acquisition_data):
     # Convert columns to numeric, if possible, and fill NaNs
     acquisition_data["Sessions"] = pd.to_numeric(acquisition_data["Sessions"], errors='coerce').fillna(0)
     acquisition_data["Bounce Rate"] = pd.to_numeric(acquisition_data["Bounce Rate"], errors='coerce').fillna(0)
-    acquisition_data["Event Count"] = pd.to_numeric(acquisition_data["Event Count"], errors='coerce').fillna(0)
+    acquisition_data["Leads"] = pd.to_numeric(acquisition_data["Leads"], errors='coerce').fillna(0)
 
     # Group by Session Source to get aggregated metrics
     source_summary = acquisition_data.groupby("Session Source").agg(
         Sessions=("Sessions", "sum"),
         Bounce_Rate=("Bounce Rate", "mean"),
-        Conversions=("Event Count", "sum")
+        Conversions=("Leads", "sum")
     ).reset_index()
 
     # Calculate Conversion Rate
