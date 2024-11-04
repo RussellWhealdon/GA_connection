@@ -110,12 +110,13 @@ def summarize_acquisition_sources(acquisition_data):
     for _, row in source_summary.iterrows():
         source = row["Session Source"]
         sessions = row["Sessions"]
-        bounce_rate = row["Bounce_Rate"].round(2)
+        bounce_rate = round(row["Bounce_Rate"], 2)  # Use round() on float
         conversion_rate = row["Conversion Rate (%)"]
         
         summary += f"{source} | {sessions} | {bounce_rate}% | {conversion_rate}%,\n"
 
     return summary
+
 
 # Summarize landing pages
 def summarize_landing_pages(acquisition_data):
