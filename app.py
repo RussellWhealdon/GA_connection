@@ -19,12 +19,12 @@ st.title("Enhanced Google Analytics Data Analysis with GPT-4")
 
 # Load and display data
 ga_data = fetch_ga4_extended_data()
-st.write("Google Analytics Data")
-st.dataframe(ga_data)
+#st.write("Google Analytics Data")
+#st.dataframe(ga_data)
 
 search_data = fetch_search_console_data()
-st.write("Google Search Console Data")
-st.dataframe(search_data)
+#st.write("Google Search Console Data")
+#st.dataframe(search_data)
 
 # Generate and display each summary with LLM analysis
 def display_report_with_llm(summary_func, report_title, llm_prompt):
