@@ -96,7 +96,7 @@ search_data = fetch_search_console_data()
 st.title("Google Search Console Data")
 st.dataframe(search_data)
 
-st.write(summarize_search_queries(search_data))
+#st.write(summarize_search_queries(search_data))
 
 ## Generate the performance summary using the enhanced data
 #ga_summary = create_ga_extended_summary(ga_data)
