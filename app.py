@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 import pandas as pd
 from ga4_data_pull import fetch_ga4_extended_data 
-from gsc_data_pull import fetch_search_console_data
+from gsc_data_pull import fetch_search_console_data, summarize_search_queries
 from llm_integration import load_model, query_gpt, initialize_llm_context
 
 # Load the model and initialize context once
