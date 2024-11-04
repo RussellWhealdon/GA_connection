@@ -24,8 +24,8 @@ def fetch_search_console_data(start_date=None, end_date=None):
         start_date = "2024-01-01"
     
     # Format dates as strings for the API
-    start_date_str = start_date.strftime('%Y-%m-%d')
-    end_date_str = end_date
+    start_date_str = start_date
+    end_date_str = end_date.strftime('%Y-%m-%d')
 
     # Create the request payload
     request = {
