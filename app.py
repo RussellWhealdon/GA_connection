@@ -90,11 +90,13 @@ st.dataframe(ga_data)
 st.write(ga_data[ga_data["Event Name"] == "generate_lead"]["Event Count"].astype(float).sum())
 
 # Fetch data from Google Search Console
-data = fetch_search_console_data()
+search_data = fetch_search_console_data()
 
 # Display data in the main app if needed
 st.title("Google Search Console Data")
-st.dataframe(data)
+st.dataframe(search_data)
+
+st.write(summarize_search_queries(search_data)
 
 ## Generate the performance summary using the enhanced data
 #ga_summary = create_ga_extended_summary(ga_data)
