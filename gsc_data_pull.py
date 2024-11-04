@@ -21,7 +21,7 @@ def fetch_search_console_data(start_date=None, end_date=None):
     # Default to last 30 days if no date range is provided
     if not start_date:
         end_date = datetime.today()
-        start_date = end_date - timedelta(days=30)
+        start_date = "2024-01-01"
     
     # Format dates as strings for the API
     start_date_str = start_date.strftime('%Y-%m-%d')
