@@ -86,6 +86,11 @@ def summarize_acquisition_sources(acquisition_data):
     required_cols = ["Session Source", "Sessions", "Bounce Rate", "Event Count"]
     if not all(col in acquisition_data.columns for col in required_cols):
         raise ValueError("Data does not contain required columns.")
+    
+    # Convert columns to numeric, if possible, and fill NaNs
+    acquisition_data["Sessions"] = pd.to_numeric(acquisition_data["Sessions"], errors='coerce').fillna(0)
+    acquisition_data["Bounce Rate"] = pd.to_numeric(acquisition_data["Bounce Rate"], errors='coerce').fillna(0)
+    acquisition_data["Event Count"] = pd.to_numeric(acquisition_data["Event Count"], errors='coerce').fillna(0)
 
     # Group by Session Source to get aggregated metrics
     source_summary = acquisition_data.groupby("Session Source").agg(
