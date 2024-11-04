@@ -98,7 +98,7 @@ st.dataframe(search_data)
 
 ### Test summary functions
 #st.write(summarize_search_queries(search_data))
-st.write(summarize_acquisition_sources(ga_data)
+st.write(summarize_acquisition_sources(ga_data))
 
 # Let the user ask GPT-4 a question about the data
 #user_prompt = st.text_input("Ask GPT-4 something about this data:")
