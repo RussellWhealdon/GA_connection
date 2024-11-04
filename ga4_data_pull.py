@@ -79,3 +79,67 @@ def fetch_ga4_extended_data():
     df['Leads'] = df.apply(lambda row: float(row['Event Count']) if row['Event Name'] == "generate_lead" else 0, axis=1)
 
     return df
+
+# Get summary of acquisition sources
+def summarize_acquisition_sources(acquisition_data):
+    # Check if required columns are in the dataframe
+    required_cols = ["Session Source", "Sessions", "Bounce Rate", "Event Count"]
+    if not all(col in acquisition_data.columns for col in required_cols):
+        raise ValueError("Data does not contain required columns.")
+
+    # Group by Session Source to get aggregated metrics
+    source_summary = acquisition_data.groupby("Session Source").agg(
+        Sessions=("Sessions", "sum"),
+        Bounce_Rate=("Bounce Rate", "mean"),
+        Conversions=("Event Count", "sum")
+    ).reset_index()
+
+    # Calculate Conversion Rate
+    source_summary["Conversion Rate (%)"] = (source_summary["Conversions"] / source_summary["Sessions"] * 100).round(2)
+    
+    # Format summary text for LLM
+    summary = "Traffic Source Performance Summary:\n"
+    summary += "Source | Sessions | Avg. Bounce Rate (%) | Conversion Rate (%)\n"
+    summary += "-" * 60 + "\n"
+
+    for _, row in source_summary.iterrows():
+        source = row["Session Source"]
+        sessions = row["Sessions"]
+        bounce_rate = row["Bounce_Rate"].round(2)
+        conversion_rate = row["Conversion Rate (%)"]
+        
+        summary += f"{source} | {sessions} | {bounce_rate}% | {conversion_rate}%,\n"
+
+    return summary
+
+# Summarize landing pages
+def summarize_landing_pages(acquisition_data):
+    # Check if required columns are in the dataframe
+    required_cols = ["Page Path", "Sessions", "Bounce Rate", "Event Count"]
+    if not all(col in acquisition_data.columns for col in required_cols):
+        raise ValueError("Data does not contain required columns.")
+
+    # Group by Page Path to get aggregated metrics
+    page_summary = acquisition_data.groupby("Page Path").agg(
+        Sessions=("Sessions", "sum"),
+        Bounce_Rate=("Bounce Rate", "mean"),
+        Conversions=("Event Count", "sum")
+    ).reset_index()
+
+    # Calculate Conversion Rate
+    page_summary["Conversion Rate (%)"] = (page_summary["Conversions"] / page_summary["Sessions"] * 100).round(2)
+    
+    # Format summary text for LLM
+    summary = "Landing Page Performance Summary:\n"
+    summary += "Page Path | Sessions | Avg. Bounce Rate (%) | Conversion Rate (%)\n"
+    summary += "-" * 70 + "\n"
+
+    for _, row in page_summary.iterrows():
+        page_path = row["Page Path"]
+        sessions = row["Sessions"]
+        bounce_rate = row["Bounce_Rate"].round(2)
+        conversion_rate = row["Conversion Rate (%)"]
+        
+        summary += f"{page_path} | {sessions} | {bounce_rate}% | {conversion_rate}%,\n"
+
+    return summary
