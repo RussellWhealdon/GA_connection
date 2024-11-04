@@ -87,7 +87,6 @@ st.write("Google Analytics Data:")
 # Fetch and display the enhanced Google Analytics data
 ga_data = fetch_ga4_extended_data()
 st.dataframe(ga_data)
-st.write(ga_data[ga_data["Event Name"] == "generate_lead"]["Event Count"].astype(float).sum())
 
 # Fetch data from Google Search Console
 search_data = fetch_search_console_data()
@@ -98,7 +97,9 @@ st.dataframe(search_data)
 
 ### Test summary functions
 #st.write(summarize_search_queries(search_data))
-st.write(summarize_acquisition_sources(ga_data))
+#st.write(summarize_acquisition_sources(ga_data))
+st.write(summarize_landing_pages(ga_data))
+
 
 # Let the user ask GPT-4 a question about the data
 #user_prompt = st.text_input("Ask GPT-4 something about this data:")
