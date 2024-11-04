@@ -101,6 +101,9 @@ def summarize_acquisition_sources(acquisition_data):
 
     # Calculate Conversion Rate
     source_summary["Conversion Rate (%)"] = (source_summary["Conversions"] / source_summary["Sessions"] * 100).round(2)
+
+    # Sort by Sessions in descending order
+    source_summary = source_summary.sort_values(by="Sessions", ascending=False)
     
     # Format summary text for LLM
     summary = "Traffic Source Performance Summary:\n"
@@ -110,7 +113,7 @@ def summarize_acquisition_sources(acquisition_data):
     for _, row in source_summary.iterrows():
         source = row["Session Source"]
         sessions = row["Sessions"]
-        bounce_rate = round(row["Bounce_Rate"], 2)  # Use round() on float
+        bounce_rate = round(row["Bounce_Rate"], 2)
         conversion_rate = row["Conversion Rate (%)"]
         
         summary += f"{source} | {sessions} | {bounce_rate}% | {conversion_rate}%,\n"
