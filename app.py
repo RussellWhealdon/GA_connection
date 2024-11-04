@@ -45,7 +45,7 @@ def display_report_with_llm(summary_func, report_title, llm_prompt):
 #    "High-Level KPI Report",
 #    "Please analyze this high-level KPI report and provide insights and suggestions."
 #)
-
+"""
 # SEO Report
 display_report_with_llm(
     lambda: summarize_search_queries(search_data),
@@ -75,3 +75,4 @@ display_report_with_llm(
 #    response = query_gpt(user_question)
 #    st.write("GPT-4 Response:")
 #    st.write(response)
+"""
