@@ -40,11 +40,11 @@ def display_report_with_llm(summary_func, report_title, llm_prompt):
     st.write(llm_response)
 
 # High-Level KPI Report
-display_report_with_llm(
-    lambda: create_ga_extended_summary(ga_data),
-    "High-Level KPI Report",
-    "Please analyze this high-level KPI report and provide insights and suggestions."
-)
+#display_report_with_llm(
+#    lambda: create_ga_extended_summary(ga_data),
+#    "High-Level KPI Report",
+#    "Please analyze this high-level KPI report and provide insights and suggestions."
+#)
 
 # SEO Report
 display_report_with_llm(
