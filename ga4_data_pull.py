@@ -12,7 +12,7 @@ property_id = st.secrets["google_service_account"]["property_id"]
 client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
 
 # Get todays date
-today = date.today().astype(str)
+today = date.today().strftime("%Y-%m-%d")
 
 # Function to fetch GA4 data with search queries, page path, and conversion data
 def fetch_ga4_extended_data():
