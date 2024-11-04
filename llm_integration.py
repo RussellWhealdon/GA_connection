@@ -20,7 +20,7 @@ def query_gpt(prompt, data_summary=""):
         full_prompt = f"{session_summary}\n\nData Summary:\n{data_summary}\n\nUser Question: {prompt}"
 
         # Send the prompt to GPT-4
-        response = openai.ChatCompletion.create(
+        response = openai.Chat.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a data analyst with a focus on digital growth and conversion optimization."},
@@ -28,7 +28,8 @@ def query_gpt(prompt, data_summary=""):
             ]
         )
         
-        answer = response['choices'][0]['message']['content']
+        # Access response using dot notation
+        answer = response.choices[0].message.content
         st.session_state["session_summary"] += f"\nUser: {prompt}\nModel: {answer}\n"
         
         return answer
