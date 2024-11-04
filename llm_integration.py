@@ -1,8 +1,8 @@
-import openai
+from openai import OpenAI
 import streamlit as st
 
-def load_model():
-    openai.api_key = st.secrets["openai"]["api_key"]
+# Initialize the OpenAI client
+client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 # Business context for session memory
 business_context = """
@@ -19,8 +19,8 @@ def query_gpt(prompt, data_summary=""):
         session_summary = st.session_state.get("session_summary", "")
         full_prompt = f"{session_summary}\n\nData Summary:\n{data_summary}\n\nUser Question: {prompt}"
 
-        # Send the prompt to GPT-4
-        response = openai.Chat.create(
+        # Send the prompt to GPT-4 through the OpenAI client instance
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a data analyst with a focus on digital growth and conversion optimization."},
@@ -28,7 +28,7 @@ def query_gpt(prompt, data_summary=""):
             ]
         )
         
-        # Access response using dot notation
+        # Access the response using dot notation
         answer = response.choices[0].message.content
         st.session_state["session_summary"] += f"\nUser: {prompt}\nModel: {answer}\n"
         
