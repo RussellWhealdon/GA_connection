@@ -1,111 +1,77 @@
 import openai
 import streamlit as st
 import pandas as pd
+from datetime import date
 from ga4_data_pull import fetch_ga4_extended_data, summarize_acquisition_sources, summarize_landing_pages
 from gsc_data_pull import fetch_search_console_data, summarize_search_queries
 from llm_integration import load_model, query_gpt, initialize_llm_context
 
-# Load the model and initialize context once
-#load_model()
-#initialize_llm_context()
+# Initialize LLM context with business context on app load
+initialize_llm_context()
 
-### Set page configuration
+# Page configuration
 st.set_page_config(
     page_title="Enhanced Google Analytics Data Dashboard",
-    layout="wide",  # Enable the wide layout
+    layout="wide"
 )
 
-###load credentials
-# Load the OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["openai"]["api_key"]
-
-# Initialize OpenAI client
-gpt_client = openai.OpenAI(api_key=openai.api_key)
-
-
-###Code to prep modeling
-# Load the model (only need to call this once)
-load_model()
-
-# Initialize session state for session-based memory
-if "session_summary" not in st.session_state:
-    st.session_state["session_summary"] = ""
-
-# Function to update session summary with each interaction
-def update_session_summary(user_question, model_response):
-    st.session_state["session_summary"] += f"\nUser: {user_question}\nModel: {model_response}\n"
-    # Limit the session summary to keep within token limits
-    if len(st.session_state["session_summary"]) > 1000:  # Adjust token limit as needed
-        st.session_state["session_summary"] = st.session_state["session_summary"][-1000:]
-
-
-# Function to create summary for new GA4 data
-def create_ga_extended_summary(df):
-    # Ensure that numeric columns are truly numeric
-    numeric_columns = ['Sessions', 'Pageviews', 'Leads', 'Avg. Session Duration', 'Bounce Rate', 'New Users']
-    for col in numeric_columns:
-        df[col] = pd.to_numeric(df[col], errors='coerce')  # Coerce errors to NaN
-
-    # Convert 'Date' column to datetime if it's not already
-    df['Date'] = pd.to_datetime(df['Date'])  # Keep as datetime for .dt access
-
-    # Summarize main metrics
-    total_sessions = df['Sessions'].sum()
-    total_pageviews = df['Pageviews'].sum()
-    total_leads = df['Leads'].sum()
-    avg_bounce_rate = df['Bounce Rate'].mean()
-    avg_session_duration = (df['Avg. Session Duration'].sum() / total_sessions) / 60  # Convert from seconds to minutes
-    total_new_users = df['New Users'].sum()
-
-    # Calculate top entries for insights
-    top_page = df.groupby('Page Path')['Pageviews'].sum().idxmax()
-    top_search_term = df.groupby('Search Term')['Sessions'].sum().idxmax()
-    top_campaign = df.groupby('Campaign Name')['Leads'].sum().idxmax()
-    top_source = df.groupby('Source/Medium')['Sessions'].sum().idxmax()
-
-    # Construct the summary string
-    summary = (
-        f"Extended Website Performance Overview:\n\n"
-        f"Total Sessions: {total_sessions}\n"
-        f"Total Pageviews: {total_pageviews}\n"
-        f"Total Leads: {total_leads}\n"
-        f"Average Bounce Rate: {avg_bounce_rate:.2f}%\n"
-        f"Average Session Duration: {avg_session_duration:.2f} minutes\n"
-        f"Total New Users: {total_new_users}\n\n"
-        f"Top Page by Pageviews: {top_page}\n"
-        f"Top Search Term by Sessions: {top_search_term}\n"
-        f"Top Campaign by Leads: {top_campaign}\n"
-        f"Top Traffic Source: {top_source}\n"
-    )
-
-    return summary
-    
-
 st.title("Enhanced Google Analytics Data Analysis with GPT-4")
-st.write("Google Analytics Data:")
 
-# Fetch and display the enhanced Google Analytics data
+# Load and display data
 ga_data = fetch_ga4_extended_data()
+st.write("Google Analytics Data")
 st.dataframe(ga_data)
 
-# Fetch data from Google Search Console
 search_data = fetch_search_console_data()
-
-# Display data in the main app if needed
-st.title("Google Search Console Data")
+st.write("Google Search Console Data")
 st.dataframe(search_data)
 
-### Test summary functions
-#st.write(summarize_search_queries(search_data))
-#st.write(summarize_acquisition_sources(ga_data))
-st.write(summarize_landing_pages(ga_data))
+# Generate and display each summary with LLM analysis
+def display_report_with_llm(summary_func, report_title, llm_prompt):
+    st.subheader(report_title)
+    
+    # Generate summary
+    summary = summary_func()
+    st.write(summary)
 
+    # Query LLM with specific prompt
+    llm_response = query_gpt(llm_prompt, summary)
+    st.write("GPT-4 Analysis:")
+    st.write(llm_response)
 
-# Let the user ask GPT-4 a question about the data
-#user_prompt = st.text_input("Ask GPT-4 something about this data:")
+# High-Level KPI Report
+display_report_with_llm(
+    lambda: create_ga_extended_summary(ga_data),
+    "High-Level KPI Report",
+    "Please analyze this high-level KPI report and provide insights and suggestions."
+)
 
-# If the user provides a prompt, analyze it using GPT-4
-#if user_prompt:
-#    st.write("GPT-4 is analyzing the data...")
-#    response = query_gpt4(user_prompt, ga_summary)
+# SEO Report
+display_report_with_llm(
+    lambda: summarize_search_queries(search_data),
+    "Search Query SEO Report",
+    "Based on this SEO report, provide suggestions on keyword optimization and content improvement."
+)
+
+# Traffic/Acquisition Report
+display_report_with_llm(
+    lambda: summarize_acquisition_sources(ga_data),
+    "Traffic/Acquisition Report",
+    "Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement."
+)
+
+# Conversion Rate Analysis
+display_report_with_llm(
+    lambda: summarize_landing_pages(ga_data),
+    "Conversion Rate Analysis",
+    "Review this conversion rate report and suggest optimizations for improving lead generation and user engagement."
+)
+
+# User chat functionality for further questions
+#st.subheader("Ask GPT-4 a Question")
+#user_question = st.text_input("Enter your question:")
+
+#if user_question:
+#    response = query_gpt(user_question)
+#    st.write("GPT-4 Response:")
 #    st.write(response)
