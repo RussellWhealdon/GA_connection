@@ -52,3 +52,28 @@ def fetch_search_console_data(start_date=None, end_date=None):
     # Load the data into a DataFrame
     df = pd.DataFrame(rows, columns=['Search Query', 'Impressions', 'Clicks', 'CTR', 'Avg. Position'])
     return df
+
+
+# Function to create a summary of the top 30 search queries for LLM consumption
+def summarize_search_queries(search_data):
+    # Ensure necessary columns are present
+    if not all(col in search_data.columns for col in ["Search Query", "Impressions", "Clicks", "Avg. Position"]):
+        raise ValueError("Data does not contain required columns.")
+
+    # Sort by Avg. Position and select top 30
+    top_queries = search_data.sort_values(by="Avg. Position").head(30)
+    
+    # Format the summary as a readable text
+    summary = "Top 30 Search Queries Summary:\n"
+    summary += "Query | Impressions | Clicks | Avg. Position\n"
+    summary += "-" * 50 + "\n"
+
+    for _, row in top_queries.iterrows():
+        query = row["Search Query"]
+        impressions = row["Impressions"]
+        clicks = row["Clicks"]
+        avg_position = row["Avg. Position"]
+        
+        summary += f"{query} | {impressions} | {clicks} | {avg_position}\n"
+    
+    return summary
