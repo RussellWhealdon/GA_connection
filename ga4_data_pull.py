@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import date
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import RunReportRequest, DateRange, Dimension, Metric
 import streamlit as st
@@ -9,6 +10,9 @@ property_id = st.secrets["google_service_account"]["property_id"]
 
 # Initialize GA Client using the service account JSON
 client = BetaAnalyticsDataClient.from_service_account_info(service_account_info)
+
+# Get todays date
+today = date.today()
 
 # Function to fetch GA4 data with search queries, page path, and conversion data
 def fetch_ga4_extended_data():
@@ -31,7 +35,7 @@ def fetch_ga4_extended_data():
             Metric(name="newUsers"),                   # New users
             Metric(name="eventCount")
         ],
-        date_ranges=[DateRange(start_date="2024-10-01", end_date="2024-10-25")],  # Define the date range
+        date_ranges=[DateRange(start_date="2024-01-01", end_date=today)],  # Define the date range
     )
     
     response = client.run_report(request)
