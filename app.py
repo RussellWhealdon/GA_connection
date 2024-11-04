@@ -3,8 +3,11 @@ import streamlit as st
 import pandas as pd
 from ga4_data_pull import fetch_ga4_extended_data 
 from gsc_data_pull import fetch_search_console_data
-from llm_integration import load_model, query_gpt
+from llm_integration import load_model, query_gpt, initialize_llm_context
 
+# Load the model and initialize context once
+#load_model()
+#initialize_llm_context()
 
 ### Set page configuration
 st.set_page_config(
