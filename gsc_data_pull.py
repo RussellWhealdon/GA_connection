@@ -62,6 +62,7 @@ def summarize_search_queries(search_data):
 
     # Sort by Avg. Position and select top 30
     top_queries = search_data.sort_values(by="Avg. Position").head(30)
+    top_queries["Avg. Position"] = top_queries["Avg. Position"].round(0).astype(int)
     
     # Format the summary as a readable text
     summary = "Top 30 Search Queries Summary:\n"
@@ -74,6 +75,6 @@ def summarize_search_queries(search_data):
         clicks = row["Clicks"]
         avg_position = row["Avg. Position"]
         
-        summary += f"{query} | {impressions} | {clicks} | {avg_position}\n"
+        summary += f"{query} | {impressions} | {clicks} | {avg_position},\n"
     
     return summary
