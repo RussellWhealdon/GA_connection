@@ -105,7 +105,7 @@ def main():
     st.write("Summarize Landing Page Analysis")
     col5, col6 = st.columns(2)
     with col5:
-    st.markdown("""
+        st.markdown("""
         **Landing Page Overview** assesses each page's impact on engagement and conversions:
         
         - **Top pages**: Highlights content that draws users.
