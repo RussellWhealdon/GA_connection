@@ -87,7 +87,7 @@ def main():
     st.write("Summarize Landing Page Analysis")
     col5, col6 = st.columns(2)
     with col5:
-        st.dataframe(search_data, use_container_width=True)
+        st.dataframe(summarize_landing_page(ga_data)[1], use_container_width=True)
     with col6:
         st.write("Example text")
     # # Conversion Rate Analysis
