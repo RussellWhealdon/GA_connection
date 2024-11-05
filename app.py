@@ -49,9 +49,8 @@ def main():
 
     ### Display Search Query Section
     st.divider()
-    st.write("Google Search Console Data")
-    col1, col2 = st.columns(2)
     st.write("Search Query Analysis")
+    col1, col2 = st.columns(2)
     with col1:
         st.dataframe(search_data, use_container_width=True)
     
