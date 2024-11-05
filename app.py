@@ -55,8 +55,6 @@ def main():
         st.dataframe(search_data, use_container_width=True)
     
     with col2:
-        st.write("Example text")
-        SEO Report
         display_report_with_llm(
             lambda: summarize_search_queries(search_data),
             "Search Query Analysis",
@@ -73,7 +71,6 @@ def main():
     with col3:
         st.dataframe(summarize_acquisition_sources(ga_data)[1], use_container_width=True)
     with col4:
-        st.write("Example text")
         # Traffic/Acquisition Report
         display_report_with_llm(
             lambda: summarize_acquisition_sources(ga_data),
@@ -89,7 +86,6 @@ def main():
     with col5:
         st.dataframe(summarize_landing_pages(ga_data)[1], use_container_width=True)
     with col6:
-        st.write("Example text")
         # Conversion Rate Analysis
         display_report_with_llm(
             lambda: summarize_landing_pages(ga_data),
