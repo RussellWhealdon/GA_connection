@@ -95,9 +95,7 @@ def main():
             as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimately led a user to the contacts page.
             Give me a brief analysis then 4 bullet points with concrete tips for improvement. 
             """
-
-    
-    #)
+        )
 
 # Execute the main function only when the script is run directly
 if __name__ == "__main__":
