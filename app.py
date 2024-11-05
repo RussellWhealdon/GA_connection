@@ -25,8 +25,6 @@ def display_report_with_llm(summary_func, llm_prompt):
 
 # Main function to handle the workflow
 def main():
-    st.title("Enhanced Google Analytics Data Analysis with GPT-4")
-
     # Load and display data
     ga_data = fetch_ga4_extended_data()
     # st.write("Google Analytics Data")
