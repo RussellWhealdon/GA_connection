@@ -23,7 +23,7 @@ def query_gpt(prompt, data_summary=""):
 
         # Send the prompt to GPT-4 through the OpenAI client instance
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a data analyst with a focus on digital growth and conversion optimization."},
                 {"role": "user", "content": full_prompt}
