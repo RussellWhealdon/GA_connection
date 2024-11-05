@@ -71,7 +71,7 @@ def main():
     st.write("Summarize Acquisition Report Analysis")
     col3, col4 = st.columns(2)
     with col3:
-        st.dataframe(summarize_acquisition_sources(gat_data)[1], use_container_width=True)
+        st.dataframe(summarize_acquisition_sources(ga_data)[1], use_container_width=True)
     with col4:
         st.write("Example text")
     # # Traffic/Acquisition Report
