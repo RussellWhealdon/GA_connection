@@ -48,6 +48,7 @@ def main():
     # )
 
     ### Display Search Query Section
+    st.write("Google Search Console Data")
     st.divider()
     col1, col2 = st.columns(2)
     st.write("Search Query Analysis")
