@@ -10,9 +10,10 @@ from llm_integration import initialize_llm_context, query_gpt
 initialize_llm_context()
 
 # Page configuration
-st.set_page_config(
-    page_title="Enhanced Google Analytics Data Dashboard",
-    layout="wide"
+st.set_page_config(layout="wide")
+st.markdown(
+    "<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>",
+    unsafe_allow_html=True
 )
 
 # Generate and display each summary with LLM analysis
@@ -78,19 +79,18 @@ def main():
     st.divider()
     st.write("Summarize Acquisition Report Analysis")
     col3, col4 = st.columns(2)
-    with col3:
         st.markdown("""
-        **Acquisition report** provides insights into where website visitors originate from and how effectively these channels drive conversions. By examining sources like organic search, paid search, social media, and direct traffic, the acquisition report reveals:
+        **Acquisition Report** shows where visitors come from and how well these channels convert. It highlights:
         
-        - **Traffic sources**: Identifies which channels bring the most visitors, such as **Organic Search**, **Paid Search**, **Social Media**, or **Direct Traffic**.
-        - **Engagement and conversion**: Shows metrics like **bounce rate**, **session duration**, and **conversion rate** to assess each source's quality and engagement level.
+        - **Traffic sources**: Details top channels like **Organic Search**, **Paid Search**, and **Social Media**.
+        - **Engagement & conversion**: Provides metrics like **bounce rate** and **conversion rate** to evaluate quality.
         
-        This information helps in:
-        - **Optimizing top-performing channels** to increase reach and conversions.
-        - **Identifying underperforming sources** that may need budget adjustments or strategy changes.
-        - **Focusing on high-conversion sources** to maximize ROI.
+        Key benefits:
+        - **Optimize high-performing channels** for better conversions.
+        - **Adjust strategies** for low-performing sources.
+        - **Focus on high-conversion channels** to increase ROI.
         
-        This analysis empowers a business to tailor its marketing and outreach efforts, ensuring the highest impact from acquisition channels.
+        This helps refine marketing efforts to improve acquisition impact.
         """)
         st.dataframe(summarize_acquisition_sources(ga_data)[1], use_container_width=True)
     with col4:
@@ -107,20 +107,20 @@ def main():
     st.write("Summarize Landing Page Analysis")
     col5, col6 = st.columns(2)
     with col5:
-        st.markdown("""
-        **Landing Page Overview** provides a snapshot of how each landing page on the website performs regarding user engagement and conversions. This overview assesses individual page effectiveness by examining:
+    st.markdown("""
+        **Landing Page Overview** assesses each page's impact on engagement and conversions:
         
-        - **Top landing pages**: Identifies the most visited pages, helping understand which content draws users initially.
-        - **Bounce rate**: Measures the percentage of visitors who leave after viewing a single page, giving insight into each page’s ability to retain user interest.
-        - **Average session duration**: Tracks the time users spend on each page, indicating engagement levels.
-        - **Conversion rate**: Shows the percentage of visitors who complete desired actions, such as form submissions, starting from each page.
+        - **Top pages**: Highlights content that draws users.
+        - **Bounce rate**: Shows visitor retention per page.
+        - **Session duration**: Indicates engagement time.
+        - **Conversion rate**: Measures visitor actions, like form submissions.
         
-        This analysis is helpful for:
-        - **Improving high-traffic, low-conversion pages** to capture more leads.
-        - **Highlighting high-conversion pages** to understand and replicate successful elements.
-        - **Identifying pages with high bounce rates** that may need optimization for content, design, or relevance.
+        Use this to:
+        - **Boost low-conversion, high-traffic pages**.
+        - **Apply successful elements from top-converting pages**.
+        - **Refine pages with high bounce rates**.
         
-        This overview helps a business refine its website’s structure and content strategy, ensuring key pages maximize user engagement and conversion potential.
+        This helps enhance content strategy for better engagement and conversions.
         """)
         st.dataframe(summarize_landing_pages(ga_data)[1], use_container_width=True)
     with col6:
