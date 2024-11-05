@@ -71,7 +71,7 @@ def main():
     st.write("Summarize Acquisition Report Analysis")
     col3, col4 = st.columns(2)
     with col3:
-        st.write(summarize_acquisition_sources(ga_data))
+        st.dataframe(search_data, use_container_width=True)
     with col4:
         st.write("Example text")
     # # Traffic/Acquisition Report
@@ -83,9 +83,13 @@ def main():
     #     improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement.
     #     """
     # )
-
     st.divider()
     st.write("Summarize Landing Page Analysis")
+    col5, col6 = st.columns(2)
+    with col5:
+        st.dataframe(search_data, use_container_width=True)
+    with col6:
+        st.write("Example text")
     # # Conversion Rate Analysis
     # display_report_with_llm(
     #     lambda: summarize_landing_pages(ga_data),
