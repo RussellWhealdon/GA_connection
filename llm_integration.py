@@ -47,7 +47,7 @@ def initialize_llm_context():
     if "session_summary" not in st.session_state:
         st.session_state["session_summary"] = business_context
 
-'''
+"""
 def query_gpt(prompt, data_summary=""):
     try:
         session_summary = st.session_state.get("session_summary", "")
