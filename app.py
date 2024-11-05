@@ -126,6 +126,29 @@ def main():
             """
         )
 
+    # Initialize the conversation history in session state if not already present
+    if "conversation_history" not in st.session_state:
+        st.session_state["conversation_history"] = []
+    
+    # Input field for the user to type a question
+    user_question = st.text_input("Ask a follow-up question:")
+    
+    # Process the user question if entered
+    if user_question:
+        # Generate response from GPT-4 using the stored context
+        llm_response = query_gpt(user_question)
+        
+        # Append the new question and response to the conversation history
+        st.session_state["conversation_history"].append({"question": user_question, "response": llm_response})
+    
+    # Display the full conversation history
+    st.subheader("Conversation History")
+    for i, entry in enumerate(st.session_state["conversation_history"]):
+        st.markdown(f"**User:** {entry['question']}")
+        st.markdown(f"**GPT-4 Analysis:** {entry['response']}")
+        st.markdown("---")  # Divider between each message
+
+
 # Execute the main function only when the script is run directly
 if __name__ == "__main__":
     main()
