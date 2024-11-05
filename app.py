@@ -35,7 +35,7 @@ def display_report_with_llm(summary_func, report_title, llm_prompt):
     st.write(summary)
 
     # Query LLM with specific prompt
-    llm_response = query_gpt_test(llm_prompt, summary)
+    llm_response = query_gpt(llm_prompt, summary)
     st.write("GPT-4 Analysis:")
     st.write(llm_response)
 
