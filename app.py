@@ -15,17 +15,6 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Enhanced Google Analytics Data Analysis with GPT-4")
-
-# Load and display data
-ga_data = fetch_ga4_extended_data()
-#st.write("Google Analytics Data")
-#st.dataframe(ga_data)
-
-search_data = fetch_search_console_data()
-#st.write("Google Search Console Data")
-#st.dataframe(search_data)
-
 # Generate and display each summary with LLM analysis
 def display_report_with_llm(summary_func, report_title, llm_prompt):
     st.subheader(report_title)
@@ -38,42 +27,57 @@ def display_report_with_llm(summary_func, report_title, llm_prompt):
     st.write("GPT-4 Analysis:")
     st.write(llm_response)
 
+# Main function to handle the workflow
+def main():
+    st.title("Enhanced Google Analytics Data Analysis with GPT-4")
 
-# High-Level KPI Report
-#display_report_with_llm(
-#    lambda: create_ga_extended_summary(ga_data),
-#    "High-Level KPI Report",
-#    "Please analyze this high-level KPI report and provide insights and suggestions."
-#)
+    # Load and display data
+    ga_data = fetch_ga4_extended_data()
+    # st.write("Google Analytics Data")
+    # st.dataframe(ga_data)
 
-# SEO Report
-display_report_with_llm(
-    lambda: summarize_search_queries(search_data),
-    "Search Query Analysis",
-    """
-    Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
-    What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with concrete tips for improvement.
-    """
-)
+    search_data = fetch_search_console_data()
+    # st.write("Google Search Console Data")
+    # st.dataframe(search_data)
 
-# Traffic/Acquisition Report
-display_report_with_llm(
-    lambda: summarize_acquisition_sources(ga_data),
-    "Traffic/Acquisition Report",
-    """
-    Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement. Add insight as to how we might we might 
-    improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement.
-    """
-)
+    # High-Level KPI Report
+    # display_report_with_llm(
+    #     lambda: create_ga_extended_summary(ga_data),
+    #     "High-Level KPI Report",
+    #     "Please analyze this high-level KPI report and provide insights and suggestions."
+    # )
 
-# Conversion Rate Analysis
-display_report_with_llm(
-    lambda: summarize_landing_pages(ga_data),
-    "Conversion Rate Analysis",
-    """
-    Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Keep in mind that for someone to quantify 
-    as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimateley led a user to the contacts page.
-    Give me a brief analysis then 4 bullet points with concrete tips for improvement. 
-    """
-)
+    # SEO Report
+    display_report_with_llm(
+        lambda: summarize_search_queries(search_data),
+        "Search Query Analysis",
+        """
+        Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
+        What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with concrete tips for improvement.
+        """
+    )
 
+    # Traffic/Acquisition Report
+    display_report_with_llm(
+        lambda: summarize_acquisition_sources(ga_data),
+        "Traffic/Acquisition Report",
+        """
+        Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement. Add insight as to how we might we might 
+        improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement.
+        """
+    )
+
+    # Conversion Rate Analysis
+    display_report_with_llm(
+        lambda: summarize_landing_pages(ga_data),
+        "Conversion Rate Analysis",
+        """
+        Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Keep in mind that for someone to quantify 
+        as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimately led a user to the contacts page.
+        Give me a brief analysis then 4 bullet points with concrete tips for improvement. 
+        """
+    )
+
+# Execute the main function only when the script is run directly
+if __name__ == "__main__":
+    main()
