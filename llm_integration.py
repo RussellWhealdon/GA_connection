@@ -33,6 +33,11 @@ def query_gpt_test(prompt, data_summary=""):
     except Exception as e:
         return f"Error: {e}"
 
+
+def initialize_llm_context():
+    if "session_summary" not in st.session_state:
+        st.session_state["session_summary"] = business_context
+
 # Test call
 initialize_llm_context()  # Ensure the context is loaded
 test_prompt = "What are some strategies for optimizing conversion rates?"
@@ -42,10 +47,6 @@ data_summary = "Conversion data shows higher engagement for organic traffic sour
 response = query_gpt_test(test_prompt, data_summary)
 print(response)
 
-
-def initialize_llm_context():
-    if "session_summary" not in st.session_state:
-        st.session_state["session_summary"] = business_context
 
 """
 def query_gpt(prompt, data_summary=""):
