@@ -77,11 +77,3 @@ display_report_with_llm(
     """
 )
 
-# User chat functionality for further questions
-#st.subheader("Ask GPT-4 a Question")
-#user_question = st.text_input("Enter your question:")
-
-#if user_question:
-#    response = query_gpt(user_question)
-#    st.write("GPT-4 Response:")
-#    st.write(response)
