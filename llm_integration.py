@@ -6,9 +6,10 @@ client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 # Business context for session memory
 business_context = """
-Answer these prompts with this context in mind. This data is coming from the website of a one person run dietitian who is somewhat technically versed. She started her 
-website about a year ago and is tring to use data from GA4 to better its perfromance and grow her business. She needs help extracting useful insights from the data and 
-making business deciscions from this. Keep all feedback simple and actionable, no unecessary business jargon. 
+Answer these questions based on this context: The data is from a one-person dietitian business that began about a year ago. The dietitian has some technical 
+skills and seeks to use GA4 data to grow her website’s performance and make clear, actionable business decisions. Keep insights simple, specific, and free from jargon. 
+Keep a few key things in mind, she is in lynnwood Washing just outside Seattle. She is hoping to work specifcally with Adults with Eating disorders. A conversion event 
+for her is someone going to the contact page and filling out a contact form (a lead).
 """
 
 def initialize_llm_context():
