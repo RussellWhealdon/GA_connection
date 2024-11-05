@@ -42,11 +42,12 @@ data_summary = "Conversion data shows higher engagement for organic traffic sour
 response = query_gpt_test(test_prompt, data_summary)
 print(response)
 
-"""
+
 def initialize_llm_context():
     if "session_summary" not in st.session_state:
         st.session_state["session_summary"] = business_context
 
+'''
 def query_gpt(prompt, data_summary=""):
     try:
         session_summary = st.session_state.get("session_summary", "")
