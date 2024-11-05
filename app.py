@@ -45,7 +45,7 @@ def main():
 
     ### Display Search Query Section
     st.divider()
-    st.write("Search Query Analysis")
+    st.markdown("<h3 style='text-align: center;'>Search Query Analysis</h3>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
@@ -62,7 +62,6 @@ def main():
     with col2:
         display_report_with_llm(
             lambda: summarize_search_queries(search_data),
-            "Search Query Analysis",
             """
             Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
             What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with 
@@ -72,7 +71,7 @@ def main():
 
     ### Display Search Query Section
     st.divider()
-    st.write("Summarize Acquisition Report Analysis")
+    st.markdown("<h3 style='text-align: center;'>Summarize Acquisition Report</h3>", unsafe_allow_html=True)
     col3, col4 = st.columns(2)
     with col3:
         st.markdown("""
@@ -93,14 +92,13 @@ def main():
         # Traffic/Acquisition Report
         display_report_with_llm(
             lambda: summarize_acquisition_sources(ga_data),
-            "Traffic/Acquisition Report",
             """
             Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement. Add insight as to how we might we might 
             improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
         )
     st.divider()
-    st.write("Summarize Landing Page Analysis")
+    st.markdown("<h3 style='text-align: center;'>Landing Page Analysis</h3>", unsafe_allow_html=True)
     col5, col6 = st.columns(2)
     with col5:
         st.markdown("""
@@ -123,7 +121,6 @@ def main():
         # Conversion Rate Analysis
         display_report_with_llm(
             lambda: summarize_landing_pages(ga_data),
-            "Conversion Rate Analysis",
             """
             Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Keep in mind that for someone to quantify 
             as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimately led a user to the contacts page.
