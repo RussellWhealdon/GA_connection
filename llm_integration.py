@@ -10,6 +10,9 @@ The business is focused on digital growth, improving conversion rates, and optim
 Primary goals include increasing lead generation, enhancing engagement on the site, and understanding user search behavior for better SEO.
 """
 
+def initialize_llm_context():
+    if "session_summary" not in st.session_state:
+        st.session_state["session_summary"] = business_context
 
 def query_gpt(prompt, data_summary=""):
     try:
