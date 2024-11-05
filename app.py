@@ -76,6 +76,7 @@ def main():
     st.divider()
     st.write("Summarize Acquisition Report Analysis")
     col3, col4 = st.columns(2)
+    with col3:
         st.markdown("""
         **Acquisition Report** shows where visitors come from and how well these channels convert. It highlights:
         
