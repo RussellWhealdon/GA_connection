@@ -19,10 +19,6 @@ def query_gpt(prompt, data_summary=""):
         session_summary = st.session_state.get("session_summary", "")
         full_prompt = f"{session_summary}\n\nData Summary:\n{data_summary}\n\nUser Question: {prompt}"
 
-        
-        # Print session summary for debugging
-        st.write("Session Summary:", session_summary)
-
         # Send the prompt to GPT-4 through the OpenAI client instance
         response = client.chat.completions.create(
             model="gpt-4",
