@@ -6,8 +6,9 @@ client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 # Business context for session memory
 business_context = """
-The business is focused on digital growth, improving conversion rates, and optimizing user acquisition channels. 
-Primary goals include increasing lead generation, enhancing engagement on the site, and understanding user search behavior for better SEO.
+Answer these prompts with this context in mind. This data is coming from the website of a one person run dietitian who is somewhat technically versed. She started her 
+website about a year ago and is tring to use data from GA4 to better its perfromance and grow her business. She needs help extracting useful insights from the data and 
+making business deciscions from this. Keep all feedback simple and actionable, no unecessary business jargon. 
 """
 
 def initialize_llm_context():
