@@ -118,7 +118,7 @@ def summarize_acquisition_sources(acquisition_data):
         
         summary += f"{source} | {sessions} | {bounce_rate}% | {conversion_rate}%,\n"
 
-    return summary
+    return summary, source_summary
 
 
 # Summarize landing pages
@@ -159,4 +159,4 @@ def summarize_landing_pages(acquisition_data):
         
         summary += f"{page_path} | {sessions} | {bounce_rate}% | {conversion_rate}%,\n"
 
-    return summary
+    return summary, page_summary
