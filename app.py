@@ -70,7 +70,11 @@ display_report_with_llm(
 display_report_with_llm(
     lambda: summarize_landing_pages(ga_data),
     "Conversion Rate Analysis",
-    "Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Give me a brief analysis then 4 bullet points with concrete tips for improvement."
+    """
+    Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Keep in mind that for someone to quantify 
+    as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimateley led a user to the contacts page.
+    Give me a brief analysis then 4 bullet points with concrete tips for improvement. 
+    """
 )
 
 # User chat functionality for further questions
