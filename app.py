@@ -30,6 +30,9 @@ search_data = fetch_search_console_data()
 def display_report_with_llm(summary_func, report_title, llm_prompt):
     st.subheader(report_title)
 
+    # Generate summary
+    summary = summary_func()
+
     # Query LLM with specific prompt
     llm_response = query_gpt(llm_prompt, summary)
     st.write("GPT-4 Analysis:")
