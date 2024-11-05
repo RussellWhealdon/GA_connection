@@ -49,22 +49,28 @@ def display_report_with_llm(summary_func, report_title, llm_prompt):
 # SEO Report
 display_report_with_llm(
     lambda: summarize_search_queries(search_data),
-    "Search Query SEO Report",
-    "Based on this SEO report, provide suggestions on keyword optimization and content improvement."
+    "Search Query Analysis",
+    """
+    Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
+    What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with concrete tips for improvement.
+    """
 )
 
 # Traffic/Acquisition Report
 display_report_with_llm(
     lambda: summarize_acquisition_sources(ga_data),
     "Traffic/Acquisition Report",
-    "Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement."
+    """
+    Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement. Add insight as to how we might we might 
+    improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement.
+    """
 )
 
 # Conversion Rate Analysis
 display_report_with_llm(
     lambda: summarize_landing_pages(ga_data),
     "Conversion Rate Analysis",
-    "Review this conversion rate report and suggest optimizations for improving lead generation and user engagement."
+    "Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Give me a brief analysis then 4 bullet points with concrete tips for improvement."
 )
 
 # User chat functionality for further questions
