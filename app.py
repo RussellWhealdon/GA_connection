@@ -11,10 +11,7 @@ initialize_llm_context()
 
 # Page configuration
 st.set_page_config(layout="wide")
-st.markdown(
-    "<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>",
-    unsafe_allow_html=True
-)
+st.markdown("<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>", unsafe_allow_html=True)
 
 # Generate and display each summary with LLM analysis
 def display_report_with_llm(summary_func, report_title, llm_prompt):
