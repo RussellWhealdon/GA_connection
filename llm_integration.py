@@ -9,7 +9,7 @@ business_context = """
 Answer these questions based on this context: The data is from a one-person dietitian business that began about a year ago. The dietitian has some technical 
 skills and seeks to use GA4 data to grow her website’s performance and make clear, actionable business decisions. Keep insights simple, specific, and free from jargon. 
 Keep a few key things in mind, she is in lynnwood Washing just outside Seattle. She is hoping to work specifcally with Adults with Eating disorders. A conversion event 
-for her is someone going to the contact page and filling out a contact form (a lead).
+for her is someone going to the contact page and filling out a contact form (a lead). Keep in mind this data is from this year summarized for that whole time period.
 """
 
 def initialize_llm_context():
