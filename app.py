@@ -68,13 +68,12 @@ def main():
 
     ### Display Search Query Section
     st.divider()
-    st.write("Search Query Analysis")
+    st.write("Summarize Acquisition Report Analysis")
     col3, col4 = st.columns(2)
     with col3:
-        st.write("Search Query Analysis")
         #st.dataframe(search_data)
     with col4:
-        st.write("Summarize Acquisition Report Analysis")
+        st.write("Example text")
     # # Traffic/Acquisition Report
     # display_report_with_llm(
     #     lambda: summarize_acquisition_sources(ga_data),
