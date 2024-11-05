@@ -47,8 +47,15 @@ def main():
     #     "Please analyze this high-level KPI report and provide insights and suggestions."
     # )
 
+    ### Display Search Query Section
     st.divider()
+    col1, col2 = st.columns(2)
     st.write("Search Query Analysis")
+    with col1:
+        st.dataframe(search_data)
+    
+    with col2:
+        st.write("Example text")
     # SEO Report
     # display_report_with_llm(
     #     lambda: summarize_search_queries(search_data),
@@ -59,7 +66,9 @@ def main():
     #     """
     # )
 
+    ### Display Search Query Section
     st.divider()
+    #st.dataframe(search_data)
     st.write("Summarize Acquisition Report Analysis")
     # # Traffic/Acquisition Report
     # display_report_with_llm(
