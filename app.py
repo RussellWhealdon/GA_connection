@@ -29,10 +29,6 @@ search_data = fetch_search_console_data()
 # Generate and display each summary with LLM analysis
 def display_report_with_llm(summary_func, report_title, llm_prompt):
     st.subheader(report_title)
-    
-    # Generate summary
-    summary = summary_func()
-    st.write(summary)
 
     # Query LLM with specific prompt
     llm_response = query_gpt(llm_prompt, summary)
