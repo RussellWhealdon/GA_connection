@@ -1,7 +1,25 @@
 import streamlit as st
 from urllib.parse import unquote
 import gsc_data_pull 
+import requests
+from bs4 import BeautifulSoup
 
+def fetch_page_copy(url):
+    try:
+        # Fetch the content of the page
+        response = requests.get(url)
+        response.raise_for_status()  # Check if request was successful
+
+        # Parse the page content
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Extract the main text from common content tags
+        paragraphs = soup.find_all(['p', 'h1', 'h2', 'h3'])
+        page_text = "\n\n".join([para.get_text(strip=True) for para in paragraphs])
+
+        return page_text if page_text else "No text content found on this page."
+    except requests.RequestException as e:
+        return f"An error occurred while fetching the page: {e}"
 
 def main():
     # Pull the same dataframe as in the main app
@@ -14,7 +32,16 @@ def main():
     # Display SEO helper app
     st.title("SEO Helper")
     st.write("This is the SEO helper app.")
+
+    # Input field for the URL to scrape
+    url = st.text_input("Enter a URL to scrape", placeholder="https://example.com")
     
+    if url:
+        st.write("Fetching content...")
+        page_copy = fetch_page_copy(url)
+        st.write("Page Copy:")
+        st.write(page_copy)
+
     # Display the dataframe
     #st.write("GSC Data:", df)
     
