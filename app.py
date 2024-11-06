@@ -14,68 +14,68 @@ st.title("Main App")
 st.write("This is the main app.")
 st.write(f"[Go to SEO Helper with message]({url})")
 
-# # Initialize LLM context with business context on app load
-# initialize_llm_context()
+# Initialize LLM context with business context on app load
+initialize_llm_context()
 
-# # Page configuration
-# st.set_page_config(layout="wide")
-# st.markdown("<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>", unsafe_allow_html=True)
+# Page configuration
+st.set_page_config(layout="wide")
+st.markdown("<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>", unsafe_allow_html=True)
 
-# # Generate and display each summary with LLM analysis
-# def display_report_with_llm(summary_func, llm_prompt):
-#     # Generate summary
-#     summary = summary_func()
+# Generate and display each summary with LLM analysis
+def display_report_with_llm(summary_func, llm_prompt):
+    # Generate summary
+    summary = summary_func()
 
-#     # Query LLM with specific prompt
-#     llm_response = query_gpt(llm_prompt, summary)
-#     st.write("GPT-4 Analysis:")
-#     st.write(llm_response)
+    # Query LLM with specific prompt
+    llm_response = query_gpt(llm_prompt, summary)
+    st.write("GPT-4 Analysis:")
+    st.write(llm_response)
 
-# # Main function to handle the workflow
-# def main():
-#     # Load and display data
-#     ga_data = fetch_ga4_extended_data()
-#     # st.write("Google Analytics Data")
-#     # st.dataframe(ga_data)
+# Main function to handle the workflow
+def main():
+    # Load and display data
+    ga_data = fetch_ga4_extended_data()
+    # st.write("Google Analytics Data")
+    # st.dataframe(ga_data)
 
-#     search_data = fetch_search_console_data()
-#     # st.write("Google Search Console Data")
-#     # st.dataframe(search_data)
+    search_data = fetch_search_console_data()
+    # st.write("Google Search Console Data")
+    # st.dataframe(search_data)
 
-#     # High-Level KPI Report
-#     # display_report_with_llm(
-#     #     lambda: create_ga_extended_summary(ga_data),
-#     #     "High-Level KPI Report",
-#     #     "Please analyze this high-level KPI report and provide insights and suggestions."
-#     # )
+    # High-Level KPI Report
+    # display_report_with_llm(
+    #     lambda: create_ga_extended_summary(ga_data),
+    #     "High-Level KPI Report",
+    #     "Please analyze this high-level KPI report and provide insights and suggestions."
+    # )
 
-#     ### Display Search Query Section
-#     st.divider()
-#     st.markdown("<h3 style='text-align: center;'>Search Query Analysis</h3>", unsafe_allow_html=True)
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         st.markdown("""
-#         **Search query data** provides insights into the exact words or phrases people use when searching for content on search engines. By analyzing metrics like search terms, impressions, clicks, and average rank, businesses can understand which keywords drive traffic to their site and how they rank for specific searches.
+    ### Display Search Query Section
+    st.divider()
+    st.markdown("<h3 style='text-align: center;'>Search Query Analysis</h3>", unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        **Search query data** provides insights into the exact words or phrases people use when searching for content on search engines. By analyzing metrics like search terms, impressions, clicks, and average rank, businesses can understand which keywords drive traffic to their site and how they rank for specific searches.
         
-#         This data is particularly valuable for SEO and paid search optimization, as it highlights:
-#         - **Popular keywords** that attract visitors
-#         - **Click-through rates (CTR)** to assess engagement with search results
-#         - **Ranking position** to gauge visibility in search results.
+        This data is particularly valuable for SEO and paid search optimization, as it highlights:
+        - **Popular keywords** that attract visitors
+        - **Click-through rates (CTR)** to assess engagement with search results
+        - **Ranking position** to gauge visibility in search results.
         
-#         Using this information, a site owner can adjust content and keywords to improve search engine rankings, tailor marketing campaigns, and better reach their target audience.
-#         """)
-#         st.dataframe(search_data, use_container_width=True)
-#     with col2:
-#         display_report_with_llm(
-#             lambda: summarize_search_queries(search_data),
-#             """
-#             Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
-#             What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with 
-#             concrete tips for improvement. Limit this repsonse to ~ 200 words!
-#             """
-#         )
+        Using this information, a site owner can adjust content and keywords to improve search engine rankings, tailor marketing campaigns, and better reach their target audience.
+        """)
+        st.dataframe(search_data, use_container_width=True)
+    with col2:
+        display_report_with_llm(
+            lambda: summarize_search_queries(search_data),
+            """
+            Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
+            What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with 
+            concrete tips for improvement. Limit this repsonse to ~ 200 words!
+            """
+        )
 
-#     ### Display Search Query Section
+#     ### Display Acquisition Section
 #     st.divider()
 #     st.markdown("<h3 style='text-align: center;'>Summarize Acquisition Report</h3>", unsafe_allow_html=True)
 #     col3, col4 = st.columns(2)
