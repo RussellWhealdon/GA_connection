@@ -71,7 +71,8 @@ def main():
         encoded_message = quote(str(response))
         st.write(response)
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
-        #st.link_button("Check Out our SEO Helper!!", url)
+        st.write(url)
+        st.link_button("Check Out our SEO Helper!!", url)
 
     ### Display Acquisition Section
     st.divider()
