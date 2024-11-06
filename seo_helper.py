@@ -73,13 +73,14 @@ def main():
     if url:
         st.write("Fetching content...")
         seo_data = fetch_page_copy(url)
-        
-        st.subheader("SEO Information")
-        st.write(f"**Title:** {seo_data['Title']}")
-        st.write(f"**Meta Description:** {seo_data['Meta Description']}")
-        st.write(f"**Meta Keywords:** {seo_data['Meta Keywords']}")
-        st.subheader("Page Copy")
-        st.write(seo_data["Page Copy"])
+
+        with st.expander("See Website Copy"):
+            st.subheader("SEO Information")
+            st.write(f"**Title:** {seo_data['Title']}")
+            st.write(f"**Meta Description:** {seo_data['Meta Description']}")
+            st.write(f"**Meta Keywords:** {seo_data['Meta Keywords']}")
+            st.subheader("Page Copy")
+            st.write(seo_data["Page Copy"])
 
         # Generate the prompt for LLM analysis
         llm_prompt = (
