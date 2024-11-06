@@ -124,8 +124,8 @@ def main():
         st.dataframe(summarize_landing_pages(ga_data)[1], use_container_width=True)
     with col6:
         # Conversion Rate Analysis
-        display_report_with_llm(
-            st.write(lambda: summarize_landing_pages(ga_data),
+        st.write(display_report_with_llm(
+            lambda: summarize_landing_pages(ga_data),
             """
             Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Keep in mind that for someone to quantify 
             as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimately led a user to the contacts page.
