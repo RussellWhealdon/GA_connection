@@ -70,9 +70,9 @@ def main():
         )
         # Store a message to pass to the SEO helper
         encoded_message = quote(str(response))
-        st.write(encoded_message)
+        st.write(response)
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
-        st.link_button("Check Out our SEO Helper!!", url)
+        #st.link_button("Check Out our SEO Helper!!", url)
 
     ### Display Acquisition Section
     st.divider()
