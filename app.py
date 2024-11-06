@@ -8,7 +8,7 @@ from llm_integration import initialize_llm_context, query_gpt
 
 # Store a message to pass to the SEO helper
 message = "Hello from Main App!"
-url = f"https://your-seo-helper.streamlit.app?message={message}"
+url = f"https://smartmetric-seobuddy.streamlit.app?message={message}"
 
 st.title("Main App")
 st.write("This is the main app.")
