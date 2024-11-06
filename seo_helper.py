@@ -5,6 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 from llm_integration import query_gpt 
 
+# Page configuration
+st.set_page_config(layout="wide")
+
 def fetch_page_copy(url):
     try:
         # Fetch the content of the page
