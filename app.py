@@ -10,14 +10,6 @@ from llm_integration import initialize_llm_context, query_gpt
 st.set_page_config(layout="wide")
 st.markdown("<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>", unsafe_allow_html=True)
 
-# Store a message to pass to the SEO helper
-message = "Hello from Main App!"
-url = f"https://smartmetric-seobuddy.streamlit.app?message={message}"
-
-st.title("Main App")
-st.write("This is the main app.")
-st.write(f"[Go to SEO Helper with message]({url})")
-
 # Initialize LLM context with business context on app load
 initialize_llm_context()
 
@@ -66,6 +58,19 @@ def main():
         """)
         st.dataframe(search_data, use_container_width=True)
     with col2:
+        message = """
+        Analysis:
+The search query data reveals that users are primarily looking for "Chelsea Whealdon" and related terms. However, many searches related to nutrition, dietitian services, and eating disorders yield low click-through rates, suggesting a gap in visibility for terms relevant to your target audience. To attract more users seeking help with eating disorders, you'll need to focus on improving your website's search presence through both SEO and paid search strategies.
+
+Tips for Improvement:
+Optimize for Local SEO: Since you are in Lynnwood, WA, ensure your website includes local keywords like "Lynnwood nutritionist" or "Seattle eating disorder specialist" to help local users find your services.
+
+Content Creation: Create blog posts or resources that address specific concerns about eating disorders. Use keywords from your data, such as "eating disorder therapy" to position your website as a valuable resource.
+
+Google Ads Campaign: Launch targeted Google Ads focusing on keywords like "eating disorder therapist in Seattle" or "adult nutritionist in Lynnwood" to capture immediate traffic and leads.
+
+Improve Website Meta Tags: Ensure your web pages have well-written title tags and meta descriptions incorporating targeted keywords. This will enhance visibility in search results and encourage more clicks.
+        """
         st.markdown("""
 Analysis:
 The search query data reveals that users are primarily looking for "Chelsea Whealdon" and related terms. However, many searches related to nutrition, dietitian services, and eating disorders yield low click-through rates, suggesting a gap in visibility for terms relevant to your target audience. To attract more users seeking help with eating disorders, you'll need to focus on improving your website's search presence through both SEO and paid search strategies.
@@ -79,6 +84,10 @@ Google Ads Campaign: Launch targeted Google Ads focusing on keywords like "eatin
 
 Improve Website Meta Tags: Ensure your web pages have well-written title tags and meta descriptions incorporating targeted keywords. This will enhance visibility in search results and encourage more clicks.
         """)
+
+    # Store a message to pass to the SEO helper
+    url = f"https://smartmetric-seobuddy.streamlit.app?message={message}"
+    st.write(f"[Go to SEO Helper with message]({url})")
         # display_report_with_llm(
         #     lambda: summarize_search_queries(search_data),
         #     """
