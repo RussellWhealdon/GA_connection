@@ -66,14 +66,27 @@ def main():
         """)
         st.dataframe(search_data, use_container_width=True)
     with col2:
-        display_report_with_llm(
-            lambda: summarize_search_queries(search_data),
-            """
-            Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
-            What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with 
-            concrete tips for improvement. Limit this repsonse to ~ 200 words!
-            """
-        )
+        st.markdown("""
+Analysis:
+The search query data reveals that users are primarily looking for "Chelsea Whealdon" and related terms. However, many searches related to nutrition, dietitian services, and eating disorders yield low click-through rates, suggesting a gap in visibility for terms relevant to your target audience. To attract more users seeking help with eating disorders, you'll need to focus on improving your website's search presence through both SEO and paid search strategies.
+
+Tips for Improvement:
+Optimize for Local SEO: Since you are in Lynnwood, WA, ensure your website includes local keywords like "Lynnwood nutritionist" or "Seattle eating disorder specialist" to help local users find your services.
+
+Content Creation: Create blog posts or resources that address specific concerns about eating disorders. Use keywords from your data, such as "eating disorder therapy" to position your website as a valuable resource.
+
+Google Ads Campaign: Launch targeted Google Ads focusing on keywords like "eating disorder therapist in Seattle" or "adult nutritionist in Lynnwood" to capture immediate traffic and leads.
+
+Improve Website Meta Tags: Ensure your web pages have well-written title tags and meta descriptions incorporating targeted keywords. This will enhance visibility in search results and encourage more clicks.
+        """)
+        # display_report_with_llm(
+        #     lambda: summarize_search_queries(search_data),
+        #     """
+        #     Based on this Search Query Report from Google give tips as to possible Paid Search Strategy and SEO optimization. Try to best answer the question, 
+        #     What are people searching for when they come to my site and how can I get more of these users? Give me a brief analysis then 4 bullet points with 
+        #     concrete tips for improvement. Limit this repsonse to ~ 200 words!
+        #     """
+        # )
 
 #     ### Display Acquisition Section
 #     st.divider()
