@@ -67,11 +67,10 @@ def main():
             concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
         )
+        st.write(response)
         # Store a message to pass to the SEO helper
         encoded_message = quote(str(response))
-        st.write(response)
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
-        st.write(url)
         st.link_button("Check Out our SEO Helper!!", url)
 
     ### Display Acquisition Section
@@ -102,6 +101,8 @@ def main():
             improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
         )
+        st.write(response)
+
     st.divider()
     st.markdown("<h3 style='text-align: center;'>Landing Page Analysis</h3>", unsafe_allow_html=True)
     col5, col6 = st.columns(2)
@@ -132,6 +133,7 @@ def main():
             Give me a brief analysis then 4 bullet points with concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
         )
+        st.write(response)
 
     # Initialize the conversation history in session state if not already present
     if "conversation_history" not in st.session_state:
