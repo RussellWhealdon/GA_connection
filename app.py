@@ -24,6 +24,7 @@ def display_report_with_llm(summary_func, llm_prompt):
     st.write("GPT-4 Analysis:")
     st.write(llm_response)
 
+
 # Main function to handle the workflow
 def main():
     # Load and display data
@@ -70,7 +71,15 @@ def main():
         # Store a message to pass to the SEO helper
         encoded_message = quote(str(response))
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
-        st.write(f"[Go to SEO Helper with message]({url})")
+        # Button for navigation
+        if st.button("Go to SEO Helper"):
+            st.write("Redirecting to SEO Helper...")
+            st.experimental_set_query_params()  # Clear query params if needed
+            #st.experimental_rerun()  # Trigger the page to rerun, clearing query params if previously set
+        
+            # Open the SEO Helper page in a new tab
+            js_code = f"window.open('{url}', '_blank')"
+            st.markdown(f"<script>{js_code}</script>", unsafe_allow_html=True)
 
     ### Display Acquisition Section
     st.divider()
