@@ -56,6 +56,11 @@ def display_report_with_llm(llm_prompt):
     st.write(llm_response)
 
 def main():
+    # Ensure session_summary is initialized in session state
+    if "session_summary" not in st.session_state:
+        st.session_state["session_summary"] = ""  # Initialize with an empty string or default value
+
+    
     # Pull the same dataframe as in the main app
     df = gsc_data_pull.fetch_search_console_data()  # Replace 'pull_data' with the actual function name
     
