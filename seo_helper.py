@@ -16,10 +16,10 @@ def main():
     st.write("This is the SEO helper app.")
     
     # Display the dataframe
-    st.write("GSC Data:", df)
+    #st.write("GSC Data:", df)
     
     # Display the ChatGPT response
-    st.write("ChatGPT SEO Response:", message)
+    #st.write("ChatGPT SEO Response:", message)
  
 if __name__ == "__main__":
      main()
