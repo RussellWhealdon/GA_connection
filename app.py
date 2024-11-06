@@ -6,6 +6,10 @@ from ga4_data_pull import fetch_ga4_extended_data, summarize_acquisition_sources
 from gsc_data_pull import fetch_search_console_data, summarize_search_queries
 from llm_integration import initialize_llm_context, query_gpt
 
+# Page configuration
+st.set_page_config(layout="wide")
+st.markdown("<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>", unsafe_allow_html=True)
+
 # Store a message to pass to the SEO helper
 message = "Hello from Main App!"
 url = f"https://smartmetric-seobuddy.streamlit.app?message={message}"
@@ -16,10 +20,6 @@ st.write(f"[Go to SEO Helper with message]({url})")
 
 # Initialize LLM context with business context on app load
 initialize_llm_context()
-
-# Page configuration
-st.set_page_config(layout="wide")
-st.markdown("<h1 style='text-align: center;'>Chelsea Whealdon Nutrition Website Helper</h1>", unsafe_allow_html=True)
 
 # Generate and display each summary with LLM analysis
 def display_report_with_llm(summary_func, llm_prompt):
