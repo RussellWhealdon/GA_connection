@@ -71,6 +71,7 @@ def main():
         # Store a message to pass to the SEO helper
         encoded_message = quote(str(response))
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
+        st.write(url)
         st.link_button("Check Out our SEO Helper!!", url)
 
     ### Display Acquisition Section
