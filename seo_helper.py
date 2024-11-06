@@ -3,7 +3,7 @@ from urllib.parse import unquote
 import gsc_data_pull 
 import requests
 from bs4 import BeautifulSoup
-
+from llm_integration import query_gpt 
 
 def fetch_page_copy(url):
     try:
@@ -49,6 +49,11 @@ def fetch_page_copy(url):
     except requests.RequestException as e:
         return {"Error": f"An error occurred while fetching the page: {e}"}
 
+def display_report_with_llm(llm_prompt):
+    # Query the LLM with the prompt
+    llm_response = query_gpt(llm_prompt)
+    st.write("GPT-4 Analysis:")
+    st.write(llm_response)
 
 def main():
     # Pull the same dataframe as in the main app
@@ -69,7 +74,6 @@ def main():
         st.write("Fetching content...")
         seo_data = fetch_page_copy(url)
         
-        # Display SEO-relevant information
         st.subheader("SEO Information")
         st.write(f"**Title:** {seo_data['Title']}")
         st.write(f"**Meta Description:** {seo_data['Meta Description']}")
@@ -77,11 +81,20 @@ def main():
         st.subheader("Page Copy")
         st.write(seo_data["Page Copy"])
 
-    # Display the dataframe
-    #st.write("GSC Data:", df)
-    
-    # Display the ChatGPT response
-    #st.write("ChatGPT SEO Response:", message)
+        # Generate the prompt for LLM analysis
+        llm_prompt = (
+            f"Here is the SEO information and page copy from a webpage:\n\n"
+            f"Title: {seo_data['Title']}\n"
+            f"Meta Description: {seo_data['Meta Description']}\n"
+            f"Meta Keywords: {seo_data['Meta Keywords']}\n"
+            f"Page Copy: {seo_data['Page Copy']}\n\n"
+            f"Based on this SEO information, please suggest possible improvements. "
+            f"Use the following context to guide your suggestions: {message}. "
+            f"This is an analysis from an initial look at the search query report from this website."
+        )
+
+        # Display LLM analysis
+        display_report_with_llm(llm_prompt)
  
 if __name__ == "__main__":
      main()
