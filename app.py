@@ -86,8 +86,11 @@ Google Ads Campaign: Launch targeted Google Ads focusing on keywords like "eatin
 Improve Website Meta Tags: Ensure your web pages have well-written title tags and meta descriptions incorporating targeted keywords. This will enhance visibility in search results and encourage more clicks.
         """)
 
+
+
     # Store a message to pass to the SEO helper
-    url = f"https://smartmetric-seobuddy.streamlit.app?message={message}"
+    encoded_message = quote(message)
+    url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
     st.write(f"[Go to SEO Helper with message]({url})")
         # display_report_with_llm(
         #     lambda: summarize_search_queries(search_data),
