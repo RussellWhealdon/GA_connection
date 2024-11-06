@@ -13,7 +13,7 @@ st.write("Message from Main App:", message)
 
 def main():
     # Pull the same dataframe as in the main app
-    df = gsc_data_pull.pull_data()  # Replace 'pull_data' with the actual function name
+    df = gsc_data_pull.fetch_search_console_data()  # Replace 'pull_data' with the actual function name
     
     # Retrieve and decode the response from URL parameter
     query_params = st.experimental_get_query_params()
@@ -29,6 +29,6 @@ def main():
     
     # Display the ChatGPT response
     st.write("ChatGPT SEO Response:", chatgpt_response)
-
-# if __name__ == "__main__":
-#     main()
+ 
+if __name__ == "__main__":
+     main()
