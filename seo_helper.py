@@ -97,7 +97,7 @@ def main():
             f"Meta Description: {seo_data['Meta Description']}\n"
             f"Meta Keywords: {seo_data['Meta Keywords']}\n"
             f"Page Copy: {seo_data['Page Copy']}\n\n"
-            f"Based on this SEO information, please suggest possible improvements. "
+            f"Based on this SEO information, please suggest possible improvements. Have one section main section that talks about overall SEO strategy. Below that have another section where you identify actual pieces of text you see that could be tweaked."
             f"Use the following context to guide your suggestions: {message}. "
             f"This is an analysis from an initial look at the search query report from this website."
         )
