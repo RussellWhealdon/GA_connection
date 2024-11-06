@@ -67,7 +67,7 @@ def main():
             concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
         )
-        st.write(response)
+        st.write(str(response))
         # Store a message to pass to the SEO helper
         encoded_message = quote(response)
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
