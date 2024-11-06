@@ -71,7 +71,6 @@ def main():
     # Display SEO helper app
     st.title("SEO Helper")
     st.write("This is the SEO helper app.")
-    st.write(message)
 
     # Input field for the URL to scrape
     url = st.text_input("Enter a URL to scrape", placeholder="https://example.com")
