@@ -94,14 +94,13 @@ def main():
         st.dataframe(summarize_acquisition_sources(ga_data)[1], use_container_width=True)
     with col4:
         # Traffic/Acquisition Report
-        display_report_with_llm(
+        st.write(display_report_with_llm(
             lambda: summarize_acquisition_sources(ga_data),
             """
             Analyze this acquisition report and provide insights on traffic sources and recommendations for improvement. Add insight as to how we might we might 
             improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
-        )
-        st.write(response)
+        ))
 
     st.divider()
     st.markdown("<h3 style='text-align: center;'>Landing Page Analysis</h3>", unsafe_allow_html=True)
@@ -126,14 +125,13 @@ def main():
     with col6:
         # Conversion Rate Analysis
         display_report_with_llm(
-            lambda: summarize_landing_pages(ga_data),
+            st.write(lambda: summarize_landing_pages(ga_data),
             """
             Review this conversion rate report and suggest optimizations for improving lead generation and user engagement. Keep in mind that for someone to quantify 
             as a lead they need to go to the contacts page and fill out the form. So if landing page or source has a high conversion rate it means it ultimately led a user to the contacts page.
             Give me a brief analysis then 4 bullet points with concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
-        )
-        st.write(response)
+        ))
 
     # Initialize the conversation history in session state if not already present
     if "conversation_history" not in st.session_state:
