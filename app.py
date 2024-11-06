@@ -71,15 +71,7 @@ def main():
         # Store a message to pass to the SEO helper
         encoded_message = quote(str(response))
         url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
-        # Button for navigation
-        if st.button("Go to SEO Helper"):
-            st.write("Redirecting to SEO Helper...")
-            st.experimental_set_query_params()  # Clear query params if needed
-            #st.experimental_rerun()  # Trigger the page to rerun, clearing query params if previously set
-        
-            # Open the SEO Helper page in a new tab
-            js_code = f"window.open('{url}', '_blank')"
-            st.markdown(f"<script>{js_code}</script>", unsafe_allow_html=True)
+        st.link_button("Check Out our SEO Helper!!", url)
 
     ### Display Acquisition Section
     st.divider()
