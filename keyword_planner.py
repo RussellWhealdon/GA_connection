@@ -6,8 +6,8 @@ st.title("Google Ads Keyword Planner")
 
 # Input Fields
 st.subheader("Enter Details for Keyword Ideas:")
-customer_id = st.text_input("Customer ID (Test Account)", value="1234567890")
 page_url = st.text_input("Website URL", value="https://example.com")
+customer_id = "6318131495"
 location_ids = ["1014044"]  # Seattle, WA
 language_id = "1000"  # English
 
