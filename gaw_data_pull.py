@@ -1,21 +1,19 @@
 import pandas as pd
 from google.ads.googleads.client import GoogleAdsClient
 from google.ads.googleads.errors import GoogleAdsException
+import streamlit as st
 
-def fetch_keyword_data(credentials_dict, customer_id, location_ids, language_id, page_url):
-    """
-    Fetch keyword ideas and return the results as a DataFrame.
-    
-    Args:
-        credentials_dict (dict): Google Ads API credentials.
-        customer_id (str): Customer ID of the test account.
-        location_ids (list): List of location IDs.
-        language_id (str): Language criterion ID.
-        page_url (str): URL seed for generating keyword ideas.
-    
-    Returns:
-        DataFrame: Contains keyword data including search volume and bid ranges.
-    """
+def fetch_keyword_data(customer_id, location_ids, language_id, page_url):
+    # Load credentials from Streamlit secrets
+    credentials_dict = {
+        "developer_token": st.secrets["google_ads"]["developer_token"],
+        "client_id": st.secrets["google_ads"]["client_id"],
+        "client_secret": st.secrets["google_ads"]["client_secret"],
+        "refresh_token": st.secrets["google_ads"]["refresh_token"],
+        "login_customer_id": None,  # Optional for test accounts
+        "use_proto_plus": True
+    }
+
     try:
         client = GoogleAdsClient.load_from_dict(credentials_dict, version="v18")
 
@@ -51,5 +49,5 @@ def fetch_keyword_data(credentials_dict, customer_id, location_ids, language_id,
         return pd.DataFrame(data)
 
     except GoogleAdsException as ex:
-        print(f"GoogleAdsException occurred: {ex}")
+        st.error(f"GoogleAdsException occurred: {ex}")
         return pd.DataFrame()  # Return an empty DataFrame on failure
