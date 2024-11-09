@@ -14,7 +14,6 @@ def fetch_keyword_data(customer_id, location_ids, language_id, page_url):
         "use_proto_plus": True
     }
     
-    customer_id = "6318131495"
     # Location and language constants (New York, NY and English as defaults)
     location_ids = ["1014044"]
     language_id = "1000"  # English
