@@ -13,7 +13,14 @@ def fetch_keyword_data(customer_id, location_ids, language_id, page_url):
         "login_customer_id": None,  # Optional for test accounts
         "use_proto_plus": True
     }
+    
+    customer_id = "6318131495"
+    # Location and language constants (New York, NY and English as defaults)
+    location_ids = ["1014044"]
+    language_id = "1000"  # English
 
+    # Website URL for generating keyword ideas
+    page_url = "https://www.chelseawnutrition.com/"
     try:
         client = GoogleAdsClient.load_from_dict(credentials_dict, version="v18")
 
