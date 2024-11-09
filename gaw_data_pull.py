@@ -19,7 +19,6 @@ def fetch_keyword_data(customer_id, location_ids, language_id, page_url):
     language_id = "1000"  # English
 
     # Website URL for generating keyword ideas
-    page_url = "https://www.chelseawnutrition.com/"
     try:
         client = GoogleAdsClient.load_from_dict(credentials_dict, version="v18")
 
