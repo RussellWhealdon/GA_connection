@@ -70,8 +70,8 @@ def main():
         st.write(response)
         # Store a message to pass to the SEO helper
         encoded_message = quote(str(response))
-        url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
-        st.link_button("Check Out our SEO Helper!!", url)
+        seo_url = f"https://smartmetric-seobuddy.streamlit.app?message={encoded_message}"
+        st.link_button("Check Out our SEO Helper!!", seo_url)
 
     ### Display Acquisition Section
     st.divider()
@@ -101,6 +101,8 @@ def main():
             improve the site based on this data. Give me a brief analysis then 4 bullet points with concrete tips for improvement. Limit this repsonse to ~ 200 words!
             """
         ))
+        kw_url = "https://smartmetric-keywordplanner.streamlit.app/"
+        st.link_button("Check Out our Paid Search - Keyword Helper!!", kw_url)
 
     st.divider()
     st.markdown("<h3 style='text-align: center;'>Landing Page Analysis</h3>", unsafe_allow_html=True)
