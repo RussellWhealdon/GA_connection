@@ -25,3 +25,16 @@ def display_report_with_llm(summary_func, llm_prompt):
     # Query LLM with specific prompt
     llm_response = query_gpt(llm_prompt, summary)
     return llm_response
+
+def main():
+
+    #Seperate different sections of the website
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("Web Performance Overview")
+        
+
+
+# Execute the main function only when the script is run directly
+if __name__ == "__main__":
+    main()
