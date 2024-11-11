@@ -31,7 +31,7 @@ def main():
     #Seperate different sections of the website
     col1, col2 = st.columns(2)
     with col1:
-        st.write("Web Performance Overview")
+        st.markdown("<h2 style='text-align: center;'>Web Performance Overview</h2>", unsafe_allow_html=True)
         
 
 
